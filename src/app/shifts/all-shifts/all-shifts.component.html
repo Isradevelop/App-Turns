@@ -1,0 +1,57 @@
+<div class="row bg-light mx-3 rounded mt-5">
+    <div class="card ">
+
+        <div class="card-header">
+            <h2 class="text-center">Todos los turnos</h2>
+        </div>
+
+        <div class="card-body mb-5">
+            <div class="row">
+
+
+                <div class="row mb-5">
+                    <div class="col-4 text-center">
+                        <a class="btn btn-secondary">Semana anterior</a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a class="btn btn-secondary">Semana actual</a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a class="btn btn-secondary">Próxima semana</a>
+                    </div>
+                </div>
+
+                <table class="table table-secondary table-bordered w-50 text-center m-auto mb-3">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Lunes</th>
+                            <th>Martes</th>
+                            <th>Miércoles</th>
+                            <th>Jueves</th>
+                            <th>Viernes</th>
+                            <th>Sábado</th>
+                            <th>Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let horario of horarios">
+                            <td>{{horario[0]}}</td>
+                            <td>{{horario[1]}}</td>
+                            <td>{{horario[2]}}</td>
+                            <td>{{horario[3]}}</td>
+                            <td>{{horario[4]}}</td>
+                            <td>{{horario[5]}}</td>
+                            <td>{{horario[6]}}</td>
+                            <td>{{horario[7]}}</td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>

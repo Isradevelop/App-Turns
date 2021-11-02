@@ -1,0 +1,32 @@
+<div class="row bg-light mx-3 rounded mt-5">
+    <div class="card ">
+
+        <div class="card-header">
+            <h2 class="text-center">Eliminar turno</h2>
+        </div>
+
+        <div class="card-body mb-5">
+            <div class="row">
+
+                <table class="table table-bordered w-50 text-center m-auto mb-3">
+                    <thead>
+                        <tr>
+                            <th>Nombre turno</th>
+                            <th>Horario</th>
+                            <th>Eliminar turno</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let shift of shifts">
+                            <td>{{shift[0]}}</td>
+                            <td>{{shift[1]}}</td>
+                            <td><button class="btn btn-warning">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+</div>

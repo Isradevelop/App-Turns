@@ -1,0 +1,36 @@
+<div class="row bg-light mx-3 rounded mt-5">
+    <div class="card ">
+
+        <div class="card-header">
+            <h2 class="text-center">Gestión de cambios de turno</h2>
+        </div>
+
+        <div class="card-body mb-5">
+            <div class="row">
+                <div *ngIf="isEmpty; else noEmpty">
+                    <h4 class="text-center mt-5">No hay cambios pendientes</h4>
+                </div>
+
+                <ng-template #noEmpty>
+                    <div *ngFor="let change of changes" class="row bg-secondary border rounded">
+                        <h4 class="my-3">Solicitud de cambio</h4>
+                        <hr>
+                        <!--<p>Empleados solicitantes del cambio: <b>{{change[0][0]}} - {{change[0][1]}}</b></p>
+                        <p>Fecha del cambio: <b>{{change[2][0]}}</b></p>
+                        <p>Turnos antes del cambio: <b>{{change[0][0]}}: {{change[1][0]}} - {{change[0][1]}}:
+                                {{change[1][1]}}</b></p>
+                        <p>Turnos después del cambio: <b>{{change[0][0]}}: {{change[1][1]}} - {{change[0][1]}}:
+                                {{change[1][0]}}</b></p>
+                        <p>
+                            <button class="btn btn-warning mx-3">Aceptar cambio</button>
+                            <button class="btn btn-danger">Rechazar cambio</button>
+                        </p>-->
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
