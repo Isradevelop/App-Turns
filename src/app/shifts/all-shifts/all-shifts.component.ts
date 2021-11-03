@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Schedule } from '../../models/schedule.interface';
+import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
   selector: 'app-all-shifts',
@@ -7,24 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllShiftsComponent implements OnInit {
 
-  horarios: string[][] = [
-    [
-      'Israel', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      'Dani', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      'Jessi', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      'Riki', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ]
-  ]
 
-  constructor() { }
+  constructor(private ScheduleService: ScheduleService) { }
 
   ngOnInit(): void {
   }
+
+  currentSchedule: Schedule[] = this.ScheduleService.schedulesForWeek(5);
 
 }

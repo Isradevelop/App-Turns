@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Schedule } from '../../models/schedule.interface';
+import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
   selector: 'app-my-shift',
@@ -7,19 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyShiftComponent implements OnInit {
 
-  turnos: string[][] = [
-    ['Lunes', '01/11/2021', 'P-9/19'],
-    ['Martes', '02/11/2021', 'P-1'],
-    ['Miércoles', '03/11/2021', 'P-1'],
-    ['Jueves', '04/11/2021', 'P-2'],
-    ['Viernes', '05/11/2021', 'P9/19'],
-    ['Sábado', '06/11/2021', 'D'],
-    ['Domingo', '07/11/2021', 'D'],
-  ]
+  days: string[] = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 
-  constructor() { }
+
+  constructor(private ScheduleService: ScheduleService) { }
 
   ngOnInit(): void {
   }
+
+
+  shift: Schedule = this.ScheduleService.schedulesForNameAndWek('Isra', 5);
+
+  shifts: string[] = [
+    this.shift.shifts.monday,
+    this.shift.shifts.tuesday,
+    this.shift.shifts.wednesday,
+    this.shift.shifts.thursday,
+    this.shift.shifts.friday,
+    this.shift.shifts.saturday,
+    this.shift.shifts.sunday,
+  ];
 
 }

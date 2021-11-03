@@ -35,15 +35,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let horario of horarios">
-                            <td>{{horario[0]}}</td>
-                            <td>{{horario[1]}}</td>
-                            <td>{{horario[2]}}</td>
-                            <td>{{horario[3]}}</td>
-                            <td>{{horario[4]}}</td>
-                            <td>{{horario[5]}}</td>
-                            <td>{{horario[6]}}</td>
-                            <td>{{horario[7]}}</td>
+                        <tr *ngFor="let schedule of currentSchedule">
+                            <td>{{schedule.employeeName}}</td>
+                            <td>{{schedule.shifts.monday}}</td>
+                            <td>{{schedule.shifts.tuesday}}</td>
+                            <td>{{schedule.shifts.wednesday}}</td>
+                            <td>{{schedule.shifts.thursday}}</td>
+                            <td>{{schedule.shifts.friday}}</td>
+                            <td>{{schedule.shifts.saturday}}</td>
+                            <td>{{schedule.shifts.sunday}}</td>
                         </tr>
 
 

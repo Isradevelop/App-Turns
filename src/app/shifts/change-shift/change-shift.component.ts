@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { EmployeesService } from '../../services/employees.service';
+
 @Component({
   selector: 'app-change-shift',
   templateUrl: './change-shift.component.html',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangeShiftComponent implements OnInit {
 
-  constructor() { }
+
+
+  constructor(private EmployeesService: EmployeesService) { }
 
   ngOnInit(): void {
   }
+
+  employeesName: string[] = this.EmployeesService.names;
 
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { EmployeesService } from 'src/app/services/employees.service';
+
 @Component({
   selector: 'app-delete-employee',
   templateUrl: './delete-employee.component.html',
@@ -7,11 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeleteEmployeeComponent implements OnInit {
 
-  empleados: string[] = ['Isra', 'Jesús', 'Jessi', 'Samira', 'Espe', 'Mara', 'Borja'];
 
-  constructor() { }
+
+  constructor(private employeesService: EmployeesService) { }
 
   ngOnInit(): void {
   }
+
+  empleados: string[] = this.employeesService.names;
 
 }

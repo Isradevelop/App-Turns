@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Schedule } from '../../models/schedule.interface';
+import { ScheduleService } from '../../services/schedule.service';
+
 @Component({
   selector: 'app-all-my-shifts',
   templateUrl: './all-my-shifts.component.html',
@@ -7,24 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllMyShiftsComponent implements OnInit {
 
-  historialTurnos: string[][] = [
-    [
-      '1', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      '2', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      '3', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ],
-    [
-      '4', 'P-1', 'P9-19', 'M-9', 'P-2', 'M', 'D', 'D'
-    ]
-  ]
 
-  constructor() { }
+
+  constructor(private ScheduleService: ScheduleService) { }
 
   ngOnInit(): void {
   }
+
+  shiftHistory: Schedule[] = this.ScheduleService.schedulesForName("Dani")
 
 }
