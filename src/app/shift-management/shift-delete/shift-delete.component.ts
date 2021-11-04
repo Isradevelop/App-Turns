@@ -8,12 +8,17 @@ import { ShiftsService } from '../../services/shifts.service';
 })
 export class ShiftDeleteComponent implements OnInit {
 
-
+  shiftsEnabled: any;
 
   constructor(private ShiftsService: ShiftsService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.shiftsEnabled = this.ShiftsService.allShifts()
+      .subscribe(data => {
+        this.shiftsEnabled = data;
+      });
+  }
 
-  shifts: string[][] = this.ShiftsService.allShifts;
+
 
 }

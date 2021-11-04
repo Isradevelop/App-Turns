@@ -17,9 +17,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let shift of shifts">
-                            <td>{{shift[0]}}</td>
-                            <td>{{shift[1]}}</td>
+                        <tr *ngFor="let shift of shiftsEnabled">
+                            <td>{{shift.name}}</td>
+                            <td>{{shift.shift}}</td>
                             <td><button class="btn btn-warning">Eliminar</button></td>
                         </tr>
                     </tbody>

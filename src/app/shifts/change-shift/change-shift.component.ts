@@ -9,13 +9,32 @@ import { EmployeesService } from '../../services/employees.service';
 })
 export class ChangeShiftComponent implements OnInit {
 
-
+  employees: any;
+  employeesNames: string[] = [];
 
   constructor(private EmployeesService: EmployeesService) { }
 
   ngOnInit(): void {
+
+    this.EmployeesService.getEmployees()
+      .subscribe(data => this.employees = data)
+
   }
 
-  employeesName: string[] = this.EmployeesService.names;
+
+
+
+
+  getNames(): void {
+
+    let employeesNames: string[] = [];
+
+    for (let i = 0; i < this.employees.length; i++) {
+
+      employeesNames.push(this.employees[i].name)
+    }
+
+    this.employeesNames = employeesNames;
+  }
 
 }

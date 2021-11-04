@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShiftsService } from '../../services/shifts.service';
-import { Shift } from '../../models/schedule.interface';
+
 
 @Component({
   selector: 'app-types-shift',
@@ -9,24 +9,18 @@ import { Shift } from '../../models/schedule.interface';
 })
 export class TypesShiftComponent implements OnInit {
 
+  public shiftsEnabled: any;
 
-
-  constructor(private ShiftsService: ShiftsService) { }
+  constructor(private ShiftsService: ShiftsService) {
+  }
 
   ngOnInit(): void {
 
-    this.ShiftsService.allShiftsCopy()
-      .subscribe(data => console.log(data));
-
+    this.ShiftsService.allShifts()
+      .subscribe(data => {
+        this.shiftsEnabled = data;
+      });
   }
-
-
-  turnos: string[][] = this.ShiftsService.allShifts;
-
-
-
-
-
 
 
 

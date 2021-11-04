@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Employees } from '../models/employees.interface';
 
@@ -7,39 +8,18 @@ import { Employees } from '../models/employees.interface';
 })
 export class EmployeesService {
 
-  private employees: Employees[] = [
-    {
-      'name': 'Dani',
-      'password': '1234'
-    },
-    {
-      'name': 'Isra',
-      'password': '12345'
-    },
-    {
-      'name': 'Riki',
-      'password': '123456'
-    },
-    {
-      'name': 'Fina',
-      'password': '1234567'
-    }
-  ];
+  private employees: any;
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+
+  }
 
 
 
-  get names(): string[] {
+  getEmployees() {
 
-    let employeesNames: string[] = [];
+    return this.employees = this.http.get('mock/employees.json');
 
-    for (let i = 0; i < this.employees.length; i++) {
-
-      employeesNames.push(this.employees[i].name)
-    }
-
-    return employeesNames;
   }
 
 
