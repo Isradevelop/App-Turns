@@ -7,22 +7,32 @@
 
         <div class="card-body mb-5">
             <div class="row">
-
-                <div class="row mb-4">
-                    <p>Introduce el nombre del nuevo empleado</p>
-                    <input class="form-control" type="text">
+                <div *ngIf="showMessage" class="alert alert-success" role="alert">
+                    Usuario creado con éxito.
                 </div>
-                <div class="row mb-4">
-                    <p>Introduce contraseña para el nuevo empleado</p>
-                    <input class="form-control" type="password">
+                <div *ngIf="!isValidName" class="alert alert-danger" role="alert">
+                    El nombre ya existe. Por favor intentalo de nuevo.
                 </div>
-                <div class="row mb-4">
-                    <p>Repite la contraseña para el nuevo empleado</p>
-                    <input class="form-control" type="password">
+                <div *ngIf="!isSamePassword" class="alert alert-danger" role="alert">
+                    Las contraseñas deben ser iguales. Por favor intentalo de nuevo.
                 </div>
-                <div class="row text-center">
-                    <button class="btn btn-warning">Crear</button>
-                </div>
+                <form [formGroup]="myForm">
+                    <div class="row mb-4">
+                        <p>Introduce el nombre del nuevo empleado</p>
+                        <input class="form-control" formControlName="name" type="text">
+                    </div>
+                    <div class="row mb-4">
+                        <p>Introduce contraseña para el nuevo empleado</p>
+                        <input class="form-control" formControlName="password" type="password">
+                    </div>
+                    <div class="row mb-4">
+                        <p>Repite la contraseña para el nuevo empleado</p>
+                        <input class="form-control" formControlName="confirmPassword" type="password">
+                    </div>
+                    <div class="row text-center">
+                        <button class="btn btn-warning" (click)="createEmployee()">Crear</button>
+                    </div>
+                </form>
             </div>
         </div>
 

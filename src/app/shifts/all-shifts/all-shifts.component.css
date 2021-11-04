@@ -1,0 +1,5 @@
+@media(max-with:769px) {
+  table {
+    overflow: scroll;
+  }
+}

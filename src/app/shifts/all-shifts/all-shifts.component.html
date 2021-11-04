@@ -21,34 +21,38 @@
                     </div>
                 </div>
 
-                <table class="table table-secondary table-bordered w-50 text-center m-auto mb-3">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Lunes</th>
-                            <th>Martes</th>
-                            <th>Miércoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
-                            <th>Sábado</th>
-                            <th>Domingo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let schedule of currentSchedule">
-                            <td>{{schedule.employeeName}}</td>
-                            <td>{{schedule.shifts.monday}}</td>
-                            <td>{{schedule.shifts.tuesday}}</td>
-                            <td>{{schedule.shifts.wednesday}}</td>
-                            <td>{{schedule.shifts.thursday}}</td>
-                            <td>{{schedule.shifts.friday}}</td>
-                            <td>{{schedule.shifts.saturday}}</td>
-                            <td>{{schedule.shifts.sunday}}</td>
-                        </tr>
+                <div class="row my-3">
+                    <h4 class="text-center">Semana actual</h4>
+                </div>
 
-
-                    </tbody>
-                </table>
+                <div id="containerTable" class="col-12">
+                    <table class="table table-secondary table-striped table-bordered w-50 text-center m-auto mb-3">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>L</th>
+                                <th>M</th>
+                                <th>X</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>S</th>
+                                <th>D</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let schedule of currentSchedule">
+                                <td>{{schedule.employeeName}}</td>
+                                <td>{{schedule.shifts.monday}}</td>
+                                <td>{{schedule.shifts.tuesday}}</td>
+                                <td>{{schedule.shifts.wednesday}}</td>
+                                <td>{{schedule.shifts.thursday}}</td>
+                                <td>{{schedule.shifts.friday}}</td>
+                                <td>{{schedule.shifts.saturday}}</td>
+                                <td>{{schedule.shifts.sunday}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

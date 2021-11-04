@@ -60,4 +60,14 @@ export class EmployeesService {
   }
 
 
+  createEmployee(name: string, password: string): Employees {
+
+    let employeeCreated: Employees = { name: name, password: password };
+
+    //this.employees.push(employeeCreated);
+
+    return employeeCreated;
+  }
+
+
 }

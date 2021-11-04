@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShiftsService } from '../../services/shifts.service';
+import { Shift } from '../../models/schedule.interface';
 
 @Component({
   selector: 'app-types-shift',
@@ -13,9 +14,20 @@ export class TypesShiftComponent implements OnInit {
   constructor(private ShiftsService: ShiftsService) { }
 
   ngOnInit(): void {
+
+    this.ShiftsService.allShiftsCopy()
+      .subscribe(data => console.log(data));
+
   }
 
 
   turnos: string[][] = this.ShiftsService.allShifts;
+
+
+
+
+
+
+
 
 }
