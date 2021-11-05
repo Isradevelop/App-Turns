@@ -11,12 +11,34 @@ import { ScheduleService } from '../../services/schedule.service';
 export class AllMyShiftsComponent implements OnInit {
 
 
+  schedules: any = [];
+  name: string = "Isra";
+  schedulesOfEmployee: any = [];
 
-  constructor(private ScheduleService: ScheduleService) { }
+
+  constructor(private ScheduleService: ScheduleService) {
+
+    this.ScheduleService.getSchedules()
+      .subscribe(data => {
+        this.schedules = data
+
+        for (let i = 0; i < this.schedules.length; i++) {
+
+          if (this.schedules[i].employeeName == this.name) {
+
+            this.schedulesOfEmployee.push(this.schedules[i])
+
+          }
+
+        }
+      })
+
+  }
+
 
   ngOnInit(): void {
   }
 
-  shiftHistory: Schedule[] = this.ScheduleService.schedulesForName("Dani")
+
 
 }

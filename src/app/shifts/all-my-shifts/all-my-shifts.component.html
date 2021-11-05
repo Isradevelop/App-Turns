@@ -11,7 +11,7 @@
                 <table class="table table-secondary table-bordered text-center m-auto mb-3 mt-4">
                     <thead>
                         <tr>
-                            <th>Week</th>
+                            <th>Fecha</th>
                             <th>L</th>
                             <th>M</th>
                             <th>X</th>
@@ -22,15 +22,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let shift of shiftHistory">
-                            <td>{{shift.weekNumber}}</td>
-                            <td>{{shift.shifts.monday}}</td>
-                            <td>{{shift.shifts.tuesday}}</td>
-                            <td>{{shift.shifts.wednesday}}</td>
-                            <td>{{shift.shifts.thursday}}</td>
-                            <td>{{shift.shifts.friday}}</td>
-                            <td>{{shift.shifts.saturday}}</td>
-                            <td>{{shift.shifts.sunday}}</td>
+                        <tr *ngFor="let schedule of schedulesOfEmployee">
+
+                            <td>{{schedule.dates[0]}} - {{schedule.dates[6]}}</td>
+                            <td>{{schedule.shifts.monday}}</td>
+                            <td>{{schedule.shifts.tuesday}}</td>
+                            <td>{{schedule.shifts.wednesday}}</td>
+                            <td>{{schedule.shifts.thursday}}</td>
+                            <td>{{schedule.shifts.friday}}</td>
+                            <td>{{schedule.shifts.saturday}}</td>
+                            <td>{{schedule.shifts.sunday}}</td>
+
                         </tr>
                     </tbody>
                 </table>

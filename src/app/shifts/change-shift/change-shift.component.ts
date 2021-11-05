@@ -9,7 +9,7 @@ import { EmployeesService } from '../../services/employees.service';
 })
 export class ChangeShiftComponent implements OnInit {
 
-  employees: any;
+  employees: any = [];
   employeesNames: string[] = [];
 
   constructor(private EmployeesService: EmployeesService) { }
@@ -17,7 +17,7 @@ export class ChangeShiftComponent implements OnInit {
   ngOnInit(): void {
 
     this.EmployeesService.getEmployees()
-      .subscribe(data => this.employees = data)
+      .subscribe(data => { this.employees = data; this.getNames(); })
 
   }
 

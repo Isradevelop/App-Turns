@@ -2,10 +2,10 @@ export interface Schedule {
     weekNumber: number;
     employeeName: string;
     dates: string[];
-    shifts: Shift;
+    shifts: Days;
 }
 
-export interface Shift {
+export interface Days {
     monday: string;
     tuesday: string;
     wednesday: string;

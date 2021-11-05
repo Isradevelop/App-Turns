@@ -12,7 +12,7 @@
                 </div>
 
                 <ng-template #noEmpty>
-                    <div *ngFor="let change of changes" class="row bg-secondary border rounded">
+                    <div *ngFor="let change of changes" class="bg-secondary border rounded m-auto">
                         <h4 class="my-3">Solicitud de cambio</h4>
                         <hr>
                         <p>Empleados solicitantes del cambio: <b>{{change.applicantEmployee}} -
@@ -20,21 +20,23 @@
                         <p>Fecha del cambio: <b>{{change.changeDate}}</b></p>
 
                         <p>Turnos antes del cambio:
+                            <br>
                             <b>
-                                {{change.applicantEmployee}}: {{change.shiftApplicant}} -
+                                {{change.applicantEmployee}}: {{change.shiftApplicant}} /
                                 {{change.affectedEmployee}}: {{change.shiftAffected}}
                             </b>
                         </p>
 
                         <p>Turnos después del cambio:
+                            <br>
                             <b>
-                                {{change.applicantEmployee}}: {{change.shiftAffected}} -
+                                {{change.applicantEmployee}}: {{change.shiftAffected}} /
                                 {{change.affectedEmployee}}: {{change.shiftApplicant}}
                             </b>
                         </p>
                         <p>
-                            <button class="btn btn-warning mx-3">Aceptar cambio</button>
-                            <button class="btn btn-danger">Rechazar cambio</button>
+                            <button class="btn btn-warning mx-3">Aceptar</button>
+                            <button class="btn btn-danger">Rechazar</button>
                         </p>
                     </div>
                 </ng-template>

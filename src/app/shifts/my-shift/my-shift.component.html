@@ -17,10 +17,58 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let shif of shifts; let i = index">
-                            <td>{{days[i]}}</td>
-                            <td>{{shift.dates[i]}}</td>
-                            <td>{{shifts[i]}}</td>
+                        <tr>
+                            <td>{{days[0]}}</td>
+                            <td>{{employeeSchedule.dates[0]}}</td>
+                            <td>{{employeeSchedule.shifts.monday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[1]}}</td>
+                            <td>{{employeeSchedule.dates[1]}}</td>
+                            <td>{{employeeSchedule.shifts.tuesday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[2]}}</td>
+                            <td>{{employeeSchedule.dates[2]}}</td>
+                            <td>{{employeeSchedule.shifts.wednesday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[3]}}</td>
+                            <td>{{employeeSchedule.dates[3]}}</td>
+                            <td>{{employeeSchedule.shifts.thursday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[4]}}</td>
+                            <td>{{employeeSchedule.dates[4]}}</td>
+                            <td>{{employeeSchedule.shifts.friday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[5]}}</td>
+                            <td>{{employeeSchedule.dates[5]}}</td>
+                            <td>{{employeeSchedule.shifts.saturday}}</td>
+                            <td>
+                                <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{days[6]}}</td>
+                            <td>{{employeeSchedule.dates[6]}}</td>
+                            <td>{{employeeSchedule.shifts.sunday}}</td>
                             <td>
                                 <a routerLink="/changeTurno" class="btn btn-warning">Cambiar</a>
                             </td>

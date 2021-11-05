@@ -10,24 +10,23 @@ import { Change } from '../../models/change.interface';
 })
 export class ShiftChangesComponent implements OnInit {
 
-  isEmpty: boolean = false;
+  isEmpty: boolean = true;
+
+  changes: any = [];
 
   constructor(private changesService: ChangesService) {
-    this.check(this.changes);
+
+
+    this.changesService.getChanges().subscribe(data => this.changes = data);
+
+    this.changes ? this.isEmpty = false : this.isEmpty = true;
+
   }
 
   ngOnInit(): void {
   }
 
-  changes: Change[] = this.changesService.changes;
 
-
-
-  check(changes: Change[]) {
-
-    changes.length == 0 ? this.isEmpty = true : this.isEmpty = false;
-
-  }
 
 
 }

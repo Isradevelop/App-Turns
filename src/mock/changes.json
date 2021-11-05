@@ -1,0 +1,16 @@
+[
+    {
+      "applicantEmployee": "Vitaly",
+      "affectedEmployee": "Samira",
+      "changeDate": "09/11/2021",
+      "shiftApplicant": "M-9",
+      "shiftAffected": "P-1"
+    },
+    {
+      "applicantEmployee": "Isra",
+      "affectedEmployee": "Dani",
+      "changeDate": "05/11/2021",
+      "shiftApplicant": "P-1",
+      "shiftAffected": "P-2"
+    }
+  ]

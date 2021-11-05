@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 import { Change } from '../models/change.interface';
 
 @Injectable({
@@ -6,25 +8,19 @@ import { Change } from '../models/change.interface';
 })
 export class ChangesService {
 
-  constructor() { }
 
-  get changes(): Change[] {
-    let allChanges: Change[] = [
-      {
-        "applicantEmployee": "Vitaly",
-        "affectedEmployee": "Samira",
-        "changeDate": "09/11/2021",
-        "shiftApplicant": "M-9",
-        "shiftAffected": "P-1"
-      },
-      {
-        "applicantEmployee": "Isra",
-        "affectedEmployee": "Dani",
-        "changeDate": "05/11/2021",
-        "shiftApplicant": "P-1",
-        "shiftAffected": "P-2"
-      }
-    ];
-    return allChanges;
+  changesCopy: any = [];
+
+
+  constructor(private http: HttpClient) { }
+
+
+
+  getChanges() {
+
+    return this.http.get('../mock/changes.json');
+
   }
+
+
 }

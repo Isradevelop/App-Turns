@@ -11,18 +11,26 @@
 
                 <div class="row mb-5">
                     <div class="col-4 text-center">
-                        <a class="btn btn-secondary">Semana anterior</a>
+                        <a class="btn btn-secondary" (click)="previusWeek()">Semana anterior</a>
                     </div>
                     <div class="col-4 text-center">
-                        <a class="btn btn-secondary">Semana actual</a>
+                        <a class="btn btn-secondary" (click)="actuallyWeek()">Semana actual</a>
                     </div>
-                    <div class="col-4 text-center">
+                    <div class="col-4 text-center" (click)="nextWeek()">
                         <a class="btn btn-secondary">Próxima semana</a>
                     </div>
                 </div>
 
-                <div class="row my-3">
+                <div *ngIf="previus" class="row my-3">
+                    <h4 class="text-center">Semana anterior</h4>
+                </div>
+
+                <div *ngIf="current" class="row my-3">
                     <h4 class="text-center">Semana actual</h4>
+                </div>
+
+                <div *ngIf="next" class="row my-3">
+                    <h4 class="text-center">Próxima semana</h4>
                 </div>
 
                 <div id="containerTable" class="col-12">
@@ -39,8 +47,37 @@
                                 <th>D</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr *ngFor="let schedule of currentSchedule">
+
+                        <tbody *ngIf="previus">
+                            <tr *ngFor="let schedule of previusSchedules">
+                                <td>{{schedule.employeeName}}</td>
+                                <td>{{schedule.shifts.monday}}</td>
+                                <td>{{schedule.shifts.tuesday}}</td>
+                                <td>{{schedule.shifts.wednesday}}</td>
+                                <td>{{schedule.shifts.thursday}}</td>
+                                <td>{{schedule.shifts.friday}}</td>
+                                <td>{{schedule.shifts.saturday}}</td>
+                                <td>{{schedule.shifts.sunday}}</td>
+                            </tr>
+                        </tbody>
+
+
+                        <tbody *ngIf="current">
+                            <tr *ngFor="let schedule of currSchedules">
+                                <td>{{schedule.employeeName}}</td>
+                                <td>{{schedule.shifts.monday}}</td>
+                                <td>{{schedule.shifts.tuesday}}</td>
+                                <td>{{schedule.shifts.wednesday}}</td>
+                                <td>{{schedule.shifts.thursday}}</td>
+                                <td>{{schedule.shifts.friday}}</td>
+                                <td>{{schedule.shifts.saturday}}</td>
+                                <td>{{schedule.shifts.sunday}}</td>
+                            </tr>
+                        </tbody>
+
+
+                        <tbody *ngIf="next">
+                            <tr *ngFor="let schedule of nextSchedules">
                                 <td>{{schedule.employeeName}}</td>
                                 <td>{{schedule.shifts.monday}}</td>
                                 <td>{{schedule.shifts.tuesday}}</td>
