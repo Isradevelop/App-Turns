@@ -10,8 +10,6 @@ import { ScheduleService } from '../../services/schedule.service';
 })
 export class AllMyShiftsComponent implements OnInit {
 
-
-  schedules: any = [];
   name: string = "Isra";
   schedulesOfEmployee: any = [];
 
@@ -19,18 +17,10 @@ export class AllMyShiftsComponent implements OnInit {
   constructor(private ScheduleService: ScheduleService) {
 
     this.ScheduleService.getSchedules()
-      .subscribe(data => {
-        this.schedules = data
+      .subscribe((data: any) => {
 
-        for (let i = 0; i < this.schedules.length; i++) {
+        this.schedulesOfEmployee = data.filter((schedule: any) => schedule.employeeName == this.name);
 
-          if (this.schedules[i].employeeName == this.name) {
-
-            this.schedulesOfEmployee.push(this.schedules[i])
-
-          }
-
-        }
       })
 
   }

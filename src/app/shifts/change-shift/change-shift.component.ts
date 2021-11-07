@@ -29,9 +29,9 @@ export class ChangeShiftComponent implements OnInit {
 
     let employeesNames: string[] = [];
 
-    for (let i = 0; i < this.employees.length; i++) {
+    for (let employee of this.employees) {
 
-      employeesNames.push(this.employees[i].name)
+      employeesNames.push(employee.name)
     }
 
     this.employeesNames = employeesNames;

@@ -5,6 +5,7 @@ import { ShiftManagementRoutingModule } from './shift-management-routing.module'
 import { ShiftChangesComponent } from './shift-changes/shift-changes.component';
 import { ShiftCreateComponent } from './shift-create/shift-create.component';
 import { ShiftDeleteComponent } from './shift-delete/shift-delete.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ShiftDeleteComponent } from './shift-delete/shift-delete.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     ShiftManagementRoutingModule
   ]
 })

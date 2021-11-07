@@ -10,11 +10,17 @@
                 <div *ngIf="showMessage" class="alert alert-success" role="alert">
                     Usuario creado con éxito.
                 </div>
-                <div *ngIf="!isValidName" class="alert alert-danger" role="alert">
+                <div *ngIf="isNotValidName" class="alert alert-danger" role="alert">
                     El nombre ya existe. Por favor intentalo de nuevo.
                 </div>
-                <div *ngIf="!isSamePassword" class="alert alert-danger" role="alert">
+                <div *ngIf="isNotEmptyName" class="alert alert-danger" role="alert">
+                    El campo nombre no puede estar vacío.
+                </div>
+                <div *ngIf="isNotSamePassword" class="alert alert-danger" role="alert">
                     Las contraseñas deben ser iguales. Por favor intentalo de nuevo.
+                </div>
+                <div *ngIf="isNotEmptyPassword" class="alert alert-danger" role="alert">
+                    Las contraseñas no pueden estar vacías.
                 </div>
                 <form [formGroup]="myForm">
                     <div class="row mb-4">

@@ -10,84 +10,86 @@ import { EmployeesService } from '../../services/employees.service';
 })
 export class CreateEmployeeComponent implements OnInit {
 
-  isSamePassword: boolean = true;
-  isValidName: boolean = true;
+  isNotSamePassword: boolean = false;
+  isNotValidName: boolean = false;
   showMessage: boolean = false;
+  isNotEmptyName: boolean = false;
+  isNotEmptyPassword: boolean = false;
 
   employees: any = [];
 
+  myForm: FormGroup;
 
-  constructor(private EmployeesService: EmployeesService) { }
+  constructor(private EmployeesService: EmployeesService) {
+    this.myForm = new FormGroup({
+      name: new FormControl,
+      password: new FormControl,
+      confirmPassword: new FormControl
+    });
+  }
 
   ngOnInit(): void {
     this.EmployeesService.getEmployees()
-      .subscribe(data => { this.employees = data })
-
+      .subscribe(data => this.employees = data)
 
   }
 
 
-  myForm: FormGroup = new FormGroup({
-    name: new FormControl,
-    password: new FormControl,
-    confirmPassword: new FormControl
-  });
 
 
 
-  createEmployee() {
+  createEmployee(): void {
 
-    this.checkName(this.myForm.value.name);
+    this.isNotSamePassword = false;
+    this.isNotValidName = false;
+    this.isNotEmptyName = false;
+    this.isNotEmptyPassword = false;
 
-    this.checkPassword(this.myForm.value.password, this.myForm.value.confirmPassword);
-
-    if (this.isValidName && this.isSamePassword) {
+    if (this.checkName() && this.checkPassword()) {
 
       this.EmployeesService.createEmployee(this.myForm.value.name, this.myForm.value.password);
 
       this.showMessage = true;
     }
 
-
   }
 
 
 
-  checkName(name: string): void {
-
-    let names: string[] = [];
 
 
-    //save the names in the variable name
-    for (let i = 0; i < this.employees.length; i++) {
+  checkName(): boolean {
 
-      names.push(this.employees[i].name)
+    if (this.myForm.value.name) {
 
+      if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
+        return true;
+      } else {
+        this.isNotValidName = true;
+        return false;
+      }
+    } else {
+
+      this.isNotEmptyName = true;
+      return false;
     }
+  }
 
 
+  checkPassword(): boolean {
+    if (this.myForm.value.password) {
 
-    for (let i = 0; i < names.length; i++) {
-
-      if (names[i] == name) {
-
-        this.isValidName = false;
-
-        break;
+      if (this.myForm.value.password === this.myForm.value.confirmPassword) {
+        return true;
+      } else {
+        this.isNotSamePassword = true;
+        return false;
       }
 
-
+    } else {
+      this.isNotEmptyPassword = true;
+      return false;
     }
-
-
-  }
-
-
-
-
-  checkPassword(password: string, confirmPassword: string): void {
-
-    password === confirmPassword ? this.isSamePassword = true : this.isSamePassword = false;
 
   }
 

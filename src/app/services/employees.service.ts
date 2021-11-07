@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Employees } from '../models/employees.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,11 @@ export class EmployeesService {
 
     let password = '';
 
-    for (let i = 0; i < this.employees.length; i++) {
+    for (let employee of this.employees) {
 
-      if (this.employees[i].name == name) {
+      if (employee.name == name) {
 
-        password = this.employees[i].password;
+        password = employee.password;
       }
     }
 

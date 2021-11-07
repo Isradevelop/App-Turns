@@ -12,38 +12,91 @@ import { EmployeesService } from '../../services/employees.service';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  isSame: boolean = true;
+  isNewPassInvalid: boolean = false;
+  isNotCorrectPassword: boolean = false;
+  correctChange: boolean = false;
+  currentPassIsEmpty: boolean = false;
+  newPassIsEmpty: boolean = false;
 
-  employeeName: string = 'Dani';
+
+  currentEmployeeName: string = 'Isra';
+
+  employees: any = [];
+
+  employeePassword: string = "";
+
+  myForm: FormGroup;
+
+  constructor(private EmployeesService: EmployeesService) {
+
+    this.myForm = new FormGroup({
+      password: new FormControl,
+      newPassword: new FormControl,
+      confirmPassword: new FormControl
+    });
 
 
-  constructor(private EmployeesService: EmployeesService) { }
+  }
 
   ngOnInit(): void {
+    this.EmployeesService.getEmployees()
+      .subscribe(data => {
+        this.employees = data;
+
+        let employee = this.employees.find((employee: any) => employee.name == this.currentEmployeeName)
+
+        this.employeePassword = employee.password;
+
+      });
+
   }
-
-
-  myForm: FormGroup = new FormGroup({
-    password: new FormControl(this.EmployeesService.password(this.employeeName)),
-    newPassword: new FormControl,
-    confirmPassword: new FormControl
-  });
-
 
   change(): void {
-    let formValue = this.myForm.value;
+    this.isNewPassInvalid = false;
+    this.isNotCorrectPassword = false;
+    this.correctChange = false;
+    this.currentPassIsEmpty = false;
+    this.newPassIsEmpty = false;
 
-    let newPassword = formValue.newPassword;
-    let confirmPassword = formValue.confirmPassword;
+    this.checkPassword();
 
-    this.check(newPassword, confirmPassword);
+    this.checkOldAndNewPassword();
+
+    if (!this.currentPassIsEmpty && !this.isNotCorrectPassword && !this.newPassIsEmpty && !this.isNewPassInvalid) {
+
+      this.correctChange = true;
+    }
   }
 
 
-  check(newPassword: string, confirmPassword: string) {
 
-    newPassword === confirmPassword ? this.isSame = true : this.isSame = false;
+  checkPassword(): void {
+
+    if (this.myForm.value.password) {
+
+      if (this.employeePassword != this.myForm.value.password) {
+        this.isNotCorrectPassword = true;
+      }
+
+    } else {
+      this.currentPassIsEmpty = true;
+    }
 
   }
 
+
+  checkOldAndNewPassword() {
+
+    if (this.myForm.value.newPassword) {
+
+      if (this.myForm.value.newPassword != this.myForm.value.confirmPassword) {
+        this.isNewPassInvalid = true;
+
+      }
+
+    } else {
+      this.newPassIsEmpty = true;
+    }
+
+  }
 }

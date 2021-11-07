@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./employees/employees.module').then(m => m.EmployeesModule)
   },
   {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+  {
     path: '**',
     redirectTo: 'shifts'
   }

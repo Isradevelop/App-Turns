@@ -11,7 +11,8 @@ export class MyShiftComponent implements OnInit {
 
   days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   employeeName: string = "Isra";
-  employeeSchedule: any = [];
+  employeeSchedules: any = [];
+  employeeSchedule: any;
 
 
   constructor(private ScheduleService: ScheduleService) {
@@ -25,15 +26,15 @@ export class MyShiftComponent implements OnInit {
     this.ScheduleService.getSchedules()
       .subscribe(data => {
 
-        this.employeeSchedule = data;
+        this.employeeSchedules = data;
 
-        for (let i = 0; i < this.employeeSchedule.length; i++) {
+        for (let schedule of this.employeeSchedules) {
 
-          for (let z = 0; z < this.employeeSchedule[i].dates.length; z++) {
+          for (let dates of schedule.dates) {
 
-            if (this.employeeSchedule[i].dates[z] === dayAndMonth && this.employeeSchedule[i].employeeName == this.employeeName) {
+            if (dates === dayAndMonth && schedule.employeeName == this.employeeName) {
 
-              this.employeeSchedule = this.employeeSchedule[i];
+              this.employeeSchedule = schedule;
 
             }
 

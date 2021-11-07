@@ -7,18 +7,28 @@
 
         <div class="card-body mb-5">
             <div class="row">
-
-                <div class="row mb-4">
-                    <p>Introduce el nombre del nuevo turno</p>
-                    <input class="form-control" type="text">
+                <div *ngIf="nameIsEmpty" class="alert alert-danger" role="alert">
+                    El nombre no puede estar vacío.
                 </div>
-                <div class="row mb-4">
-                    <p>Introduce el horario del nuevo turno</p>
-                    <input class="form-control" type="password">
+                <div *ngIf="shiftIsEmpty" class="alert alert-danger" role="alert">
+                    El horario no puede estar vacío.
                 </div>
-                <div class="row text-center">
-                    <button class="btn btn-warning">Crear</button>
+                <div *ngIf="shiftCreated" class="alert alert-success" role="alert">
+                    Horario creado correctamente.
                 </div>
+                <form [formGroup]="myForm">
+                    <div class="row mb-4">
+                        <p>Introduce el nombre del nuevo turno</p>
+                        <input class="form-control" formControlName="name" type="text">
+                    </div>
+                    <div class="row mb-4">
+                        <p>Introduce el horario del nuevo turno</p>
+                        <input class="form-control" formControlName="shift" type="text">
+                    </div>
+                    <div class="row text-center">
+                        <button class="btn btn-warning" (click)="createShift()">Crear</button>
+                    </div>
+                </form>
             </div>
         </div>
 

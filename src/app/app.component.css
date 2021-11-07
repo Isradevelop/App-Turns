@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'headerFont';
+  src: url('../assets/fonts/MochiyPopPOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'bodyFont';
+  src: url('../assets/fonts/ArchitectsDaughter-Regular.ttf');
+}
+
+* {
+  font-family: 'bodyFont';
+}
+
+#header {
+  font-family: 'headerFont';
+}
