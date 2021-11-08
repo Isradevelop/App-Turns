@@ -7,7 +7,8 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <table class="table table-secondary table-bordered w-50 text-center mb-2 m-auto">
+                <table *ngIf="employeeSchedule"
+                    class="table table-secondary table-bordered w-50 text-center mb-2 m-auto">
                     <thead>
                         <tr>
                             <th>Día de la semana</th>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ShiftsService } from '../../services/shifts.service';
 
 @Component({
@@ -6,19 +7,23 @@ import { ShiftsService } from '../../services/shifts.service';
   templateUrl: './shift-delete.component.html',
   styleUrls: ['./shift-delete.component.css']
 })
-export class ShiftDeleteComponent implements OnInit {
+export class ShiftDeleteComponent implements OnInit, OnDestroy {
 
   shiftsEnabled: any;
+
+  timerSubscription!: Subscription;
 
   constructor(private ShiftsService: ShiftsService) { }
 
   ngOnInit(): void {
-    this.shiftsEnabled = this.ShiftsService.allShifts()
+    this.timerSubscription = this.ShiftsService.allShifts()
       .subscribe(data => {
         this.shiftsEnabled = data;
       });
   }
 
-
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
+  }
 
 }

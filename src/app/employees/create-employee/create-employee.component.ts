@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { EmployeesService } from '../../services/employees.service';
 
@@ -8,13 +9,15 @@ import { EmployeesService } from '../../services/employees.service';
   templateUrl: './create-employee.component.html',
   styleUrls: ['./create-employee.component.css']
 })
-export class CreateEmployeeComponent implements OnInit {
+export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   isNotSamePassword: boolean = false;
   isNotValidName: boolean = false;
   showMessage: boolean = false;
   isNotEmptyName: boolean = false;
   isNotEmptyPassword: boolean = false;
+
+  timerSubscription!: Subscription;
 
   employees: any = [];
 
@@ -29,14 +32,14 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.EmployeesService.getEmployees()
+    this.timerSubscription = this.EmployeesService.getEmployees()
       .subscribe(data => this.employees = data)
 
   }
 
-
-
-
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
+  }
 
   createEmployee(): void {
 
@@ -60,7 +63,7 @@ export class CreateEmployeeComponent implements OnInit {
 
   checkName(): boolean {
 
-    if (this.myForm.value.name) {
+    if (this.myForm.value.name.trim()) {
 
       if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
         return true;
@@ -77,7 +80,7 @@ export class CreateEmployeeComponent implements OnInit {
 
 
   checkPassword(): boolean {
-    if (this.myForm.value.password) {
+    if (this.myForm.value.password.trim()) {
 
       if (this.myForm.value.password === this.myForm.value.confirmPassword) {
         return true;
@@ -92,8 +95,6 @@ export class CreateEmployeeComponent implements OnInit {
     }
 
   }
-
-
 
 
 }

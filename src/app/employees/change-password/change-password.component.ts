@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { EmployeesService } from '../../services/employees.service';
 
@@ -10,13 +11,16 @@ import { EmployeesService } from '../../services/employees.service';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   isNewPassInvalid: boolean = false;
   isNotCorrectPassword: boolean = false;
   correctChange: boolean = false;
   currentPassIsEmpty: boolean = false;
   newPassIsEmpty: boolean = false;
+
+  //this variable is used for kill the service subscription
+  timerSubscription!: Subscription;
 
 
   currentEmployeeName: string = 'Isra';
@@ -39,7 +43,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.EmployeesService.getEmployees()
+    this.timerSubscription = this.EmployeesService.getEmployees()
       .subscribe(data => {
         this.employees = data;
 
@@ -49,6 +53,10 @@ export class ChangePasswordComponent implements OnInit {
 
       });
 
+  }
+
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
   }
 
   change(): void {

@@ -8,8 +8,6 @@ export class ShiftsService {
 
   constructor(private http: HttpClient) { }
 
-
-
   allShifts() {
     return this.http.get('mock/shifts.json');
 

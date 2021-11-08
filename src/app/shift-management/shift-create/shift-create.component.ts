@@ -38,7 +38,7 @@ export class ShiftCreateComponent implements OnInit {
   }
 
   checkEmptyName(): boolean {
-    if (this.myForm.value.name) {
+    if (this.myForm.value.name.trim()) {
       return true;
     } else {
       this.nameIsEmpty = true;
@@ -47,7 +47,7 @@ export class ShiftCreateComponent implements OnInit {
   }
 
   checkEmptyShift(): boolean {
-    if (this.myForm.value.shift) {
+    if (this.myForm.value.shift.trim()) {
       return true;
     } else {
       this.shiftIsEmpty = true;

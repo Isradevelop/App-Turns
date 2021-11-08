@@ -7,18 +7,12 @@ import { Schedule } from '../models/schedule.interface';
 })
 export class ScheduleService {
 
-
-
   constructor(private http: HttpClient) { }
-
-
 
   getSchedules() {
 
     return this.http.get('../mock/schedule.json');
 
   }
-
-
 
 }

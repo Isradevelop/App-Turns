@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Employees } from '../models/employees.interface';
-import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +15,11 @@ export class EmployeesService {
 
   }
 
-
-
   getEmployees() {
 
     return this.employees = this.http.get('mock/employees.json');
 
   }
-
-
 
   password(name: string): string {
 
@@ -39,7 +35,6 @@ export class EmployeesService {
 
     return password;
   }
-
 
   createEmployee(name: string, password: string): Employees {
 

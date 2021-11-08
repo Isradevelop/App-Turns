@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { EmployeesService } from '../../services/employees.service';
 
@@ -7,10 +8,11 @@ import { EmployeesService } from '../../services/employees.service';
   templateUrl: './change-shift.component.html',
   styleUrls: ['./change-shift.component.css']
 })
-export class ChangeShiftComponent implements OnInit {
+export class ChangeShiftComponent implements OnInit, OnDestroy {
 
   employees: any = [];
   employeesNames: string[] = [];
+  timerSubscription!: Subscription;
 
   constructor(private EmployeesService: EmployeesService) { }
 
@@ -21,9 +23,9 @@ export class ChangeShiftComponent implements OnInit {
 
   }
 
-
-
-
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
+  }
 
   getNames(): void {
 

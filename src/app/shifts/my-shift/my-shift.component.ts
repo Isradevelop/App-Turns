@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Schedule } from '../../models/schedule.interface';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
@@ -7,12 +8,13 @@ import { ScheduleService } from '../../services/schedule.service';
   templateUrl: './my-shift.component.html',
   styleUrls: ['./my-shift.component.css']
 })
-export class MyShiftComponent implements OnInit {
+export class MyShiftComponent implements OnInit, OnDestroy {
 
   days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   employeeName: string = "Isra";
   employeeSchedules: any = [];
   employeeSchedule: any;
+  timerSubscription!: Subscription;
 
 
   constructor(private ScheduleService: ScheduleService) {
@@ -23,7 +25,7 @@ export class MyShiftComponent implements OnInit {
     let dayAndMonth: string = dayNumber.toString() + "/" + monthNumber.toString();
 
 
-    this.ScheduleService.getSchedules()
+    this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe(data => {
 
         this.employeeSchedules = data;
@@ -48,9 +50,8 @@ export class MyShiftComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-
-
-
+  ngOnDestroy(): void {
+    this.timerSubscription.unsubscribe();
+  }
 
 }

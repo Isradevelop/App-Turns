@@ -11,10 +11,7 @@ export class ChangesService {
 
   changesCopy: any = [];
 
-
   constructor(private http: HttpClient) { }
-
-
 
   getChanges() {
 
