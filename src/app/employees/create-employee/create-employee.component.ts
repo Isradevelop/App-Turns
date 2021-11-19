@@ -26,6 +26,8 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
   constructor(private EmployeesService: EmployeesService) {
     this.myForm = new FormGroup({
       name: new FormControl,
+      email: new FormControl,
+      isBoss: new FormControl,
       password: new FormControl,
       confirmPassword: new FormControl
     });

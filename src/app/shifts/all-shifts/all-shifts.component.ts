@@ -22,6 +22,9 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
   current: boolean = true;
   next: boolean = false;
 
+  //this variable if there is a new week
+  thereAreNextWeek: boolean = false;
+
 
 
   constructor(private ScheduleService: ScheduleService) {
@@ -72,10 +75,12 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
           if (schedule.weekNumber == (this.currentWeekNumber + 1)) {
 
             this.nextSchedules.push(schedule);
-
+            this.thereAreNextWeek = true;
           }
 
         }
+
+
 
       });
 
