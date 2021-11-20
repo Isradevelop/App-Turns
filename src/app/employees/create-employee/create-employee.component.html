@@ -7,9 +7,7 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <div *ngIf="showMessage" class="alert alert-success" role="alert">
-                    Usuario creado con éxito.
-                </div>
+
                 <div *ngIf="isNotValidName" class="alert alert-danger" role="alert">
                     El nombre ya existe. Por favor intentalo de nuevo.
                 </div>
@@ -33,9 +31,9 @@
                     </div>
                     <div class="row mb-4">
                         <p>Tipo de empleado</p>
-                        <select class="form-select">
-                            <option value="normal" selected>Normal</option>
-                            <option value="boss">Jefe</option>
+                        <select class="form-select" formControlName="isABoss">
+                            <option value="false" selected>Normal</option>
+                            <option value="true">Jefe</option>
                         </select>
                     </div>
                     <div class="row mb-4">

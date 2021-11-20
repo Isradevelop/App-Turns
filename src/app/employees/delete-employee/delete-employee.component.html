@@ -7,16 +7,18 @@
 
         <div class="card-body mb-5">
             <div class="row">
-
-                <div class="row mb-5">
-                    <p>Introduce el nombre del empleado que quieres eliminar</p>
-                    <select class="form-select">
-                        <option *ngFor="let employee of employees">{{employee.name}}</option>
-                    </select>
-                </div>
-                <div class="row text-center">
-                    <button class="btn btn-warning">Eliminar</button>
-                </div>
+                <form [formGroup]="myForm">
+                    <div class="row mb-5">
+                        <p>Introduce el nombre del empleado que quieres eliminar</p>
+                        <select class="form-select" formControlName="name">
+                            <option *ngFor="let employee of employees" class="text-black" value="{{employee.name}}">
+                                {{employee.name}}</option>
+                        </select>
+                    </div>
+                    <div class="row text-center">
+                        <button class="btn btn-warning" (click)="deleteEmployee()">Eliminar</button>
+                    </div>
+                </form>
             </div>
         </div>
 

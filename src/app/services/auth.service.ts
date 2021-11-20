@@ -39,7 +39,7 @@ export class AuthService {
 
             this._employee = {
               name: resp.name!,
-              uid: resp.uid!
+              _id: resp.uid!
             }
           }
         }),
@@ -58,7 +58,7 @@ export class AuthService {
     const headers = new HttpHeaders()
       .set('x-token', localStorage.getItem('token') || ''); //en caso de no existir token devuelve un ''
 
-    console.log(headers);
+
     return this.http.get<AuthResponse>(url, { headers })
       .pipe(
         map(resp => {

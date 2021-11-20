@@ -3,6 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { EmployeesService } from '../../services/employees.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-employee',
@@ -13,7 +15,6 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   isNotSamePassword: boolean = false;
   isNotValidName: boolean = false;
-  showMessage: boolean = false;
   isNotEmptyName: boolean = false;
   isNotEmptyPassword: boolean = false;
 
@@ -23,11 +24,12 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
-  constructor(private EmployeesService: EmployeesService) {
+  constructor(private EmployeesService: EmployeesService,
+    private router: Router) {
     this.myForm = new FormGroup({
       name: new FormControl,
       email: new FormControl,
-      isBoss: new FormControl,
+      isABoss: new FormControl,
       password: new FormControl,
       confirmPassword: new FormControl
     });
@@ -52,9 +54,24 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
     if (this.checkName() && this.checkPassword()) {
 
-      this.EmployeesService.createEmployee(this.myForm.value.name, this.myForm.value.password);
+      const { name, password, email, isABoss } = this.myForm.value;
 
-      this.showMessage = true;
+      this.EmployeesService.createEmployee(name, password, email, isABoss)
+        .subscribe(() => {
+          Swal.fire({
+            icon: 'success',
+            title: `
+            Usuario creado!!
+            Nombre: ${name},
+            Email: ${email}
+              `,
+            showConfirmButton: true,
+            timer: 5000
+          });
+
+          this.router.navigateByUrl('/');
+        })
+
     }
 
   }

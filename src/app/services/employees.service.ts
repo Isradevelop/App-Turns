@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { AuthResponse } from '../models/authResponse.interface';
 import { Employees } from '../models/employees.interface';
+import { environment } from '../../environments/environment.prod';
+import { catchError, map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -9,17 +12,17 @@ import { Employees } from '../models/employees.interface';
 })
 export class EmployeesService {
 
-  private employees: any;
+  private employees: any[] = [];
+  private baseUrl: string = environment.baseURL;
 
   constructor(private http: HttpClient) {
 
   }
 
   getEmployees() {
-
-    return this.employees = this.http.get('mock/employees.json');
-
+    return this.http.get<AuthResponse[]>(`${this.baseUrl}/auth`);
   }
+
 
   password(name: string): string {
 
@@ -36,13 +39,21 @@ export class EmployeesService {
     return password;
   }
 
-  createEmployee(name: string, password: string): Employees {
+  //creación de empleados
+  createEmployee(name: string, password: string, email: string, isABoss: boolean) {
 
-    let employeeCreated: Employees = { name: name, password: password };
+    const employeeCreated: Employees = { name, password, email, isABoss };
 
-    //this.employees.push(employeeCreated);
+    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/new`, employeeCreated);
 
-    return employeeCreated;
+  }
+
+
+  //borrado de empleados
+  deleteEmployee(name: string) {
+    return this.http.delete<String>(`${this.baseUrl}/auth/${name}`)
+
+
   }
 
 

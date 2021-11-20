@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 import { EmployeesService } from 'src/app/services/employees.service';
 import { Employees } from '../../models/employees.interface';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-delete-employee',
@@ -11,21 +14,55 @@ import { Employees } from '../../models/employees.interface';
 })
 export class DeleteEmployeeComponent implements OnInit, OnDestroy {
 
-  employees: any = [];
+  employees: Employees[] = [];
 
   timerSubscription!: Subscription;
 
-  constructor(private employeesService: EmployeesService) { }
+  myForm: FormGroup;
+
+  constructor(private employeesService: EmployeesService) {
+    this.myForm = new FormGroup({
+      name: new FormControl,
+    });
+  }
 
   ngOnInit(): void {
 
     this.timerSubscription = this.employeesService.getEmployees()
-      .subscribe(data => this.employees = data)
+      .subscribe((data: Employees[]) => {
+
+        this.employees = data;
+      })
 
   }
 
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
+  }
+
+  deleteEmployee() {
+    console.log(this.myForm.value.name);
+
+    const name = this.employeesService.deleteEmployee(this.myForm.value.name)
+      .subscribe(name => {
+        swal.fire({
+          icon: 'success',
+          title: `
+            Usuario Borrado!!
+            Nombre: ${name},
+              `,
+          showConfirmButton: true,
+          timer: 5000
+        });
+        this.employeesService.getEmployees()
+          .subscribe((data: Employees[]) => {
+
+            this.employees = data;
+          })
+      })
+
+
+
   }
 
 }

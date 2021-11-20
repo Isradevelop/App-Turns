@@ -1,7 +1,7 @@
 export interface Employees {
-    name: string;
+    name?: string;
     password?: string;
     email?: string;
-    uid?: string;
+    _id?: string;
     isABoss?: boolean
 }

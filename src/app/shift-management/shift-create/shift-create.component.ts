@@ -33,7 +33,7 @@ export class ShiftCreateComponent implements OnInit {
 
     if (this.checkEmptyName() && this.checkEmptyShift()) {
       this.shiftCreated = true;
-      this.employeesService.createEmployee(this.myForm.value.name, this.myForm.value.shift)
+      //this.employeesService.createEmployee(this.myForm.value.name, this.myForm.value.shift)
     }
   }
 
