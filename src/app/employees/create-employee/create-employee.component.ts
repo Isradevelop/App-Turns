@@ -81,37 +81,48 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
 
   checkName(): boolean {
+    if (this.myForm.value.name != null) {
+      if (this.myForm.value.name.trim()) {
 
-    if (this.myForm.value.name.trim()) {
-
-      if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
-        return true;
+        if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
+          return true;
+        } else {
+          this.isNotValidName = true;
+          return false;
+        }
       } else {
-        this.isNotValidName = true;
+
+        this.isNotEmptyName = true;
         return false;
       }
     } else {
-
       this.isNotEmptyName = true;
       return false;
     }
+
   }
 
 
   checkPassword(): boolean {
-    if (this.myForm.value.password.trim()) {
+    if (this.myForm.value.password != null) {
+      if (this.myForm.value.password.trim()) {
 
-      if (this.myForm.value.password === this.myForm.value.confirmPassword) {
-        return true;
+        if (this.myForm.value.password === this.myForm.value.confirmPassword) {
+          return true;
+        } else {
+          this.isNotSamePassword = true;
+          return false;
+        }
+
       } else {
-        this.isNotSamePassword = true;
+        this.isNotEmptyPassword = true;
         return false;
       }
-
     } else {
       this.isNotEmptyPassword = true;
-      return false;
+      return false
     }
+
 
   }
 

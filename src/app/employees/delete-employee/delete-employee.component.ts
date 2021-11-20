@@ -41,9 +41,21 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
   }
 
   deleteEmployee() {
-    console.log(this.myForm.value.name);
 
-    const name = this.employeesService.deleteEmployee(this.myForm.value.name)
+    const name = this.myForm.value.name;
+
+    if (name === null) {
+      swal.fire({
+        icon: 'error',
+        title: 'El usuario introducido es incorrecto, por favor inténtalo de nuevo',
+        showConfirmButton: false,
+        timer: 1500
+      })
+
+      return
+    }
+
+    this.employeesService.deleteEmployee(this.myForm.value.name)
       .subscribe(name => {
         swal.fire({
           icon: 'success',
@@ -54,6 +66,7 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
           showConfirmButton: true,
           timer: 5000
         });
+
         this.employeesService.getEmployees()
           .subscribe((data: Employees[]) => {
 

@@ -52,8 +52,13 @@ export class EmployeesService {
   //borrado de empleados
   deleteEmployee(name: string) {
     return this.http.delete<String>(`${this.baseUrl}/auth/${name}`)
+  }
 
 
+  //cambio de contraseña
+  updatePassword(name: string, password: string) {
+
+    return this.http.put<AuthResponse>(`${this.baseUrl}/auth`, { name, password });
   }
 
 

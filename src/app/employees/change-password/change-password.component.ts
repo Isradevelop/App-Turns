@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import jwt_decode from "jwt-decode";
+import Swal from 'sweetalert2';
 
 import { EmployeesService } from '../../services/employees.service';
+import { Token } from '../../models/token.interface';
 
 
 
@@ -13,21 +16,13 @@ import { EmployeesService } from '../../services/employees.service';
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
 
-  isNewPassInvalid: boolean = false;
-  isNotCorrectPassword: boolean = false;
-  correctChange: boolean = false;
-  currentPassIsEmpty: boolean = false;
-  newPassIsEmpty: boolean = false;
-
   //this variable is used for kill the service subscription
   timerSubscription!: Subscription;
-
-
-  currentEmployeeName: string = 'Isra';
 
   employees: any = [];
 
   employeePassword: string = "";
+  employeeName: string = '';
 
   myForm: FormGroup;
 
@@ -47,9 +42,13 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.employees = data;
 
-        let employee = this.employees.find((employee: any) => employee.name == this.currentEmployeeName)
+        const token: Token = jwt_decode(localStorage.getItem('token')!);
 
-        this.employeePassword = employee.password;
+        let employee = this.employees.find((employee: any) => employee.name == token.name)
+
+
+        this.employeeName = employee.name;
+
 
       });
 
@@ -60,36 +59,19 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   change(): void {
-    this.isNewPassInvalid = false;
-    this.isNotCorrectPassword = false;
-    this.correctChange = false;
-    this.currentPassIsEmpty = false;
-    this.newPassIsEmpty = false;
 
-    this.checkPassword();
+    if (this.checkOldAndNewPassword()) {
 
-    this.checkOldAndNewPassword();
+      this.EmployeesService.updatePassword(this.employeeName, this.myForm.value.newPassword)
+        .subscribe();
 
-    if (!this.currentPassIsEmpty && !this.isNotCorrectPassword && !this.newPassIsEmpty && !this.isNewPassInvalid) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Contraseña cambiada con éxito',
+        timer: 1500
+      })
 
-      this.correctChange = true;
     }
-  }
-
-
-
-  checkPassword(): void {
-
-    if (this.myForm.value.password) {
-
-      if (this.employeePassword != this.myForm.value.password) {
-        this.isNotCorrectPassword = true;
-      }
-
-    } else {
-      this.currentPassIsEmpty = true;
-    }
-
   }
 
 
@@ -98,12 +80,26 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     if (this.myForm.value.newPassword) {
 
       if (this.myForm.value.newPassword != this.myForm.value.confirmPassword) {
-        this.isNewPassInvalid = true;
+        Swal.fire({
+          icon: 'error',
+          title: 'Las contraseñas deben ser iguales',
+          timer: 1500
+        });
 
+        return false;
+
+      } else {
+        return true;
       }
 
     } else {
-      this.newPassIsEmpty = true;
+      Swal.fire({
+        icon: 'error',
+        title: 'Por favor introduce contraseña',
+        timer: 1500
+      });
+
+      return false;
     }
 
   }
