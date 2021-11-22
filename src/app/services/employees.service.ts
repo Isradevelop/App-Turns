@@ -5,6 +5,7 @@ import { AuthResponse } from '../models/authResponse.interface';
 import { Employees } from '../models/employees.interface';
 import { environment } from '../../environments/environment.prod';
 import { catchError, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Injectable({
@@ -44,7 +45,10 @@ export class EmployeesService {
 
     const employeeCreated: Employees = { name, password, email, isABoss };
 
-    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/new`, employeeCreated);
+    return this.http.post<AuthResponse>(`${this.baseUrl}/auth/new`, employeeCreated)
+      .pipe(
+        catchError(err => of(err))
+      )
 
   }
 

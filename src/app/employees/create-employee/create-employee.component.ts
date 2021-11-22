@@ -6,6 +6,7 @@ import { EmployeesService } from '../../services/employees.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-create-employee',
   templateUrl: './create-employee.component.html',
@@ -13,10 +14,7 @@ import { Router } from '@angular/router';
 })
 export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
-  isNotSamePassword: boolean = false;
-  isNotValidName: boolean = false;
-  isNotEmptyName: boolean = false;
-  isNotEmptyPassword: boolean = false;
+
 
   timerSubscription!: Subscription;
 
@@ -47,29 +45,40 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   createEmployee(): void {
 
-    this.isNotSamePassword = false;
-    this.isNotValidName = false;
-    this.isNotEmptyName = false;
-    this.isNotEmptyPassword = false;
 
-    if (this.checkName() && this.checkPassword()) {
+
+    if (this.checkName() && this.checkEmail() && this.checkIsABoss() && this.checkPassword()) {
 
       const { name, password, email, isABoss } = this.myForm.value;
 
       this.EmployeesService.createEmployee(name, password, email, isABoss)
-        .subscribe(() => {
-          Swal.fire({
-            icon: 'success',
-            title: `
-            Usuario creado!!
-            Nombre: ${name},
-            Email: ${email}
-              `,
-            showConfirmButton: true,
-            timer: 5000
-          });
+        .subscribe(resp => {
 
-          this.router.navigateByUrl('/');
+          //comprobamos si el email está bien formado
+          if (resp.ok == false) {
+
+            Swal.fire({
+              icon: 'error',
+              title: 'El email no tiene un formato válido',
+              showConfirmButton: true,
+              timer: 5000
+            });
+
+          } else {
+            Swal.fire({
+              icon: 'success',
+              title: `
+              Usuario creado!!
+              Nombre: ${name},
+              Email: ${email}
+                `,
+              showConfirmButton: true,
+              timer: 5000
+            });
+
+            this.router.navigateByUrl('/');
+          }
+
         })
 
     }
@@ -81,47 +90,106 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
 
   checkName(): boolean {
-    if (this.myForm.value.name != null) {
-      if (this.myForm.value.name.trim()) {
+    if (this.myForm.value.name != null && this.myForm.value.name.trim()) {
 
-        if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
-          return true;
-        } else {
-          this.isNotValidName = true;
-          return false;
-        }
+      if (this.employees.find((employee: any) => employee.name == this.myForm.get('name')?.value) == undefined) {
+        return true;
       } else {
+        Swal.fire({
+          icon: 'error',
+          title: `Ya existe empleado con nombre: ${this.myForm.value.name}`,
+          timer: 2000
+        });
 
-        this.isNotEmptyName = true;
         return false;
       }
-    } else {
-      this.isNotEmptyName = true;
-      return false;
     }
+
+    Swal.fire({
+      icon: 'error',
+      title: 'El nombre no puede estar vacío',
+      timer: 2000
+    });
+
+    return false;
+
+
+  }
+
+
+  checkEmail(): boolean {
+    if (this.myForm.value.email != null && this.myForm.value.email.trim()) {
+
+      if (this.employees.find((employee: any) => employee.email == this.myForm.get('email')?.value) == undefined) {
+
+        return true;
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ya existe ese email',
+          timer: 2000
+        });
+
+        return false;
+      }
+    }
+    Swal.fire({
+      icon: 'error',
+      title: 'El email no puede estar vacío',
+      timer: 2000
+    });
+
+    return false;
+
+
+  }
+
+
+  checkIsABoss(): boolean {
+    if (this.myForm.value.isABoss != null) {
+
+      return true;
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'El tipo de empleado no puede estar vacío',
+        timer: 2000
+      });
+      return false
+    }
+
 
   }
 
 
   checkPassword(): boolean {
-    if (this.myForm.value.password != null) {
-      if (this.myForm.value.password.trim()) {
+    const pass: String = this.myForm.value.password;
+    if (this.myForm.value.password != null && this.myForm.value.password.trim() && pass.length >= 6) {
 
-        if (this.myForm.value.password === this.myForm.value.confirmPassword) {
-          return true;
-        } else {
-          this.isNotSamePassword = true;
-          return false;
-        }
+      if (this.myForm.value.password === this.myForm.value.confirmPassword) {
+
+        return true;
 
       } else {
-        this.isNotEmptyPassword = true;
+        Swal.fire({
+          icon: 'error',
+          title: 'Las contraseñas deben ser iguales',
+          timer: 2000
+        });
         return false;
+
       }
     } else {
-      this.isNotEmptyPassword = true;
+
+      Swal.fire({
+        icon: 'error',
+        title: 'La contraseña debe tener como mínimo 6 caracteres',
+        timer: 2000
+      });
       return false
+
     }
+
 
 
   }

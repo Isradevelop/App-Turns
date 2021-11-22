@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { EmployeesService } from 'src/app/services/employees.service';
+import { Router } from '@angular/router';
+
+import Swal from 'sweetalert2';
+import { catchError, map } from 'rxjs/operators';
+
+import { Shift } from 'src/app/models/shift.interface';
+import { ShiftsService } from 'src/app/services/shifts.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-shift-create',
@@ -9,13 +16,15 @@ import { EmployeesService } from 'src/app/services/employees.service';
 })
 export class ShiftCreateComponent implements OnInit {
 
-  nameIsEmpty: boolean = false;
-  shiftIsEmpty: boolean = false;
-  shiftCreated: boolean = false;
+
+
 
   myForm: FormGroup;
 
-  constructor(private employeesService: EmployeesService) {
+  mysShiftsList: any = [];
+
+  constructor(private shiftService: ShiftsService,
+    private router: Router) {
 
     this.myForm = new FormGroup({
       name: new FormControl(),
@@ -24,35 +33,102 @@ export class ShiftCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.shiftService.allShifts()
+      .subscribe(data => this.mysShiftsList = data);
   }
 
   createShift() {
-    this.nameIsEmpty = false;
-    this.shiftIsEmpty = false;
-    this.shiftCreated = false;
 
-    if (this.checkEmptyName() && this.checkEmptyShift()) {
-      this.shiftCreated = true;
-      //this.employeesService.createEmployee(this.myForm.value.name, this.myForm.value.shift)
+    if (this.checkName() && this.checkEmptyShift()) {
+
+      this.shiftService.createShift(this.myForm.value.name, this.myForm.value.shift)
+        .subscribe(resp => {
+
+          if (resp.ok == false) {
+
+            return Swal.fire({
+              icon: 'error',
+              title: resp.msg,
+              timer: 1500
+
+            });
+
+          } else {
+
+            Swal.fire({
+              icon: 'success',
+              title: `Nuevo horario creado.
+                        Nombre: ${this.myForm.value.name}
+                        Horario: ${this.myForm.value.shift}`,
+              timer: 1500
+
+            });
+
+            this.router.navigateByUrl('/shifts/typesShifts');
+
+            return;
+          }
+
+
+        });
+
+
     }
   }
 
-  checkEmptyName(): boolean {
-    if (this.myForm.value.name.trim()) {
-      return true;
-    } else {
-      this.nameIsEmpty = true;
+  checkName(): boolean {
+    if (this.myForm.value.name == null) {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'El campo nombre no puede estar vacío',
+        timer: 1500
+      });
+
       return false;
+
+    } else {
+
+      if (!this.myForm.value.name.trim()) {
+
+        Swal.fire({
+          icon: 'error',
+          title: 'El campo nombre no puede estar vacío',
+          timer: 1500
+        });
+
+        return false;
+
+      } else {
+        return true;
+      }
     }
+
   }
 
   checkEmptyShift(): boolean {
-    if (this.myForm.value.shift.trim()) {
-      return true;
+    if (this.myForm.value.shift != null) {
+      if (this.myForm.value.shift.trim()) {
+        return true;
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'El horario no puede estar vacío',
+          timer: 1500
+        });
+
+        return false;
+      }
     } else {
-      this.shiftIsEmpty = true;
+      Swal.fire({
+        icon: 'error',
+        title: 'El horario no puede estar vacío',
+        timer: 1500
+      });
+
       return false;
     }
+
   }
 
 }

@@ -57,11 +57,11 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
 
     this.employeesService.deleteEmployee(this.myForm.value.name)
       .subscribe(name => {
+
         swal.fire({
           icon: 'success',
           title: `
-            Usuario Borrado!!
-            Nombre: ${name},
+            Usuario ${this.myForm.value.name} Borrado!!
               `,
           showConfirmButton: true,
           timer: 5000

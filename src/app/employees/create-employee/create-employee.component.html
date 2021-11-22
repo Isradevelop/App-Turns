@@ -7,19 +7,6 @@
 
         <div class="card-body mb-5">
             <div class="row">
-
-                <div *ngIf="isNotValidName" class="alert alert-danger" role="alert">
-                    El nombre ya existe. Por favor intentalo de nuevo.
-                </div>
-                <div *ngIf="isNotEmptyName" class="alert alert-danger" role="alert">
-                    El campo nombre no puede estar vacío.
-                </div>
-                <div *ngIf="isNotSamePassword" class="alert alert-danger" role="alert">
-                    Las contraseñas deben ser iguales. Por favor intentalo de nuevo.
-                </div>
-                <div *ngIf="isNotEmptyPassword" class="alert alert-danger" role="alert">
-                    Las contraseñas no pueden estar vacías.
-                </div>
                 <form [formGroup]="myForm">
                     <div class="row mb-4">
                         <p>Introduce el nombre</p>

@@ -7,15 +7,6 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <div *ngIf="nameIsEmpty" class="alert alert-danger" role="alert">
-                    El nombre no puede estar vacío.
-                </div>
-                <div *ngIf="shiftIsEmpty" class="alert alert-danger" role="alert">
-                    El horario no puede estar vacío.
-                </div>
-                <div *ngIf="shiftCreated" class="alert alert-success" role="alert">
-                    Horario creado correctamente.
-                </div>
                 <form [formGroup]="myForm">
                     <div class="row mb-4">
                         <p>Introduce nombre</p>

@@ -20,7 +20,8 @@
                         <tr *ngFor="let shift of shiftsEnabled">
                             <td>{{shift.name}}</td>
                             <td>{{shift.shift}}</td>
-                            <td><button class="btn btn-warning">Eliminar</button></td>
+                            <td><button class="btn btn-warning" (click)="deleteShift(shift._id)">Eliminar</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -4,5 +4,6 @@ export interface Token {
     uid: string,
     name: string,
     iat: string,
-    exp: string
+    exp: string,
+    isABoss: boolean
 }
