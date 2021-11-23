@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import jwt_decode from "jwt-decode";
@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import { EmployeesService } from '../../services/employees.service';
 import { Token } from '../../models/token.interface';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -14,7 +15,7 @@ import { Token } from '../../models/token.interface';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent implements OnInit, OnDestroy {
+export class ChangePasswordComponent implements OnInit {
 
   //this variable is used for kill the service subscription
   timerSubscription!: Subscription;
@@ -22,11 +23,12 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   employees: any = [];
 
   employeePassword: string = "";
-  employeeName: string = '';
+  employee: any;
 
   myForm: FormGroup;
 
-  constructor(private EmployeesService: EmployeesService) {
+  constructor(private EmployeesService: EmployeesService,
+    private authService: AuthService) {
 
     this.myForm = new FormGroup({
       password: new FormControl,
@@ -38,31 +40,17 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.timerSubscription = this.EmployeesService.getEmployees()
-      .subscribe(data => {
-        this.employees = data;
 
-        const token: Token = jwt_decode(localStorage.getItem('token')!);
-
-        let employee = this.employees.find((employee: any) => employee.name == token.name)
-
-
-        this.employeeName = employee.name;
-
-
-      });
-
+    this.authService.userToken()
+      .then(employee => this.employee = employee);
   }
 
-  ngOnDestroy(): void {
-    this.timerSubscription.unsubscribe();
-  }
 
   change(): void {
 
     if (this.checkOldAndNewPassword()) {
 
-      this.EmployeesService.updatePassword(this.employeeName, this.myForm.value.newPassword)
+      this.EmployeesService.updatePassword(this.employee.name, this.myForm.value.newPassword)
         .subscribe();
 
       Swal.fire({
@@ -70,14 +58,14 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
         title: 'Contraseña cambiada con éxito',
         timer: 1500
       })
-
     }
   }
 
 
   checkOldAndNewPassword() {
 
-    if (this.myForm.value.newPassword) {
+    if (this.myForm.value.newPassword != null && this.myForm.value.newPassword.trim().length >= 6) {
+
 
       if (this.myForm.value.newPassword != this.myForm.value.confirmPassword) {
         Swal.fire({
@@ -95,7 +83,7 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
     } else {
       Swal.fire({
         icon: 'error',
-        title: 'Por favor introduce contraseña',
+        title: 'La contraseña debe tener 6 dígitos o más',
         timer: 1500
       });
 

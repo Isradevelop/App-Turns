@@ -8,6 +8,9 @@ import { environment } from 'src/environments/environment';
 
 import { AuthResponse } from '../models/authResponse.interface';
 import { Employees } from '../models/employees.interface';
+import { Token } from '../models/token.interface';
+import { EmployeesService } from './employees.service';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +24,8 @@ export class AuthService {
     return { ...this._employee };
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private employeeService: EmployeesService) { }
 
 
   //esta función hace una petición post al back, con el email y el password y devuelve el "ok" o error
@@ -71,5 +75,33 @@ export class AuthService {
 
   logout() {
     localStorage.clear();
+  }
+
+
+  //este método devuelve el usuario autenticado 
+  userToken() {
+
+    let employeeListService: any;
+
+    return new Promise((resolve, reject) => {
+
+      this.employeeService.getEmployees()
+        .subscribe(employeeList => {
+
+          employeeListService = employeeList;
+
+          if (employeeListService) {
+            const token: Token = jwt_decode(localStorage.getItem('token')!);
+            const employee = employeeListService.find((employee: any) => employee.name == token.name);
+            const employeeName = employee;
+
+            (employeeName)
+              ? resolve(employeeName)
+              : reject('No existe token para el usuario')
+          }
+        });
+
+    })
+
   }
 }
