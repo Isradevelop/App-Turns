@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { EmployeesService } from 'src/app/services/employees.service';
 import { Employees } from '../../models/employees.interface';
 import swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delete-employee',
@@ -20,7 +21,8 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
-  constructor(private employeesService: EmployeesService) {
+  constructor(private employeesService: EmployeesService,
+    private router: Router) {
     this.myForm = new FormGroup({
       name: new FormControl,
     });
@@ -55,24 +57,51 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
       return
     }
 
-    this.employeesService.deleteEmployee(this.myForm.value.name)
-      .subscribe(name => {
 
-        swal.fire({
-          icon: 'success',
-          title: `
-            Usuario ${this.myForm.value.name} Borrado!!
-              `,
-          showConfirmButton: true,
-          timer: 5000
-        });
 
-        this.employeesService.getEmployees()
-          .subscribe((data: Employees[]) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
 
-            this.employees = data;
-          })
-      })
+    swalWithBootstrapButtons.fire({
+      title: '¿Estás seguro?',
+      text: "Estás a punto de borrar un empleado",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Borrar!',
+      cancelButtonText: 'Cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.employeesService.deleteEmployee(this.myForm.value.name)
+          .subscribe((name) => {
+
+            swalWithBootstrapButtons.fire(
+              'Usuario Borrado con éxito',
+              `${this.myForm.value.name}`,
+              'success'
+            )
+          });
+
+        this.router.navigateByUrl('/');
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Operación cancelada',
+          'No se realizará ninguna operación',
+          'error'
+        )
+      }
+
+
+
+    })
 
 
 

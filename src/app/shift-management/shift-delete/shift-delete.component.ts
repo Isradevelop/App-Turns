@@ -30,24 +30,62 @@ export class ShiftDeleteComponent implements OnInit, OnDestroy {
   }
 
   deleteShift(id: any) {
-    this.ShiftsService.deleteShift(id)
-      .subscribe(resp => {
 
-        if (resp.ok === true) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Turno eliminado correctamente',
-            timer: 2000
+
+
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: '¿Estás seguro?',
+      text: "Estás a punto de borrar un turno",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Borrar!',
+      cancelButtonText: 'Cancelar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.ShiftsService.deleteShift(id)
+          .subscribe(resp => {
+            if (resp.ok === true) {
+
+              swalWithBootstrapButtons.fire(
+                'Turno borrado con éxito',
+                `Turno borrado`,
+                'success'
+
+              )
+            } else {
+
+              swalWithBootstrapButtons.fire(
+                'No se pudo borrar el turno, hable con el administrador',
+                `Turno borrado`,
+                'error'
+
+              )
+            }
           });
 
-          this.router.navigateByUrl('/shifts/typesShifts')
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: resp.msg,
-            timer: 2000
-          });
-        }
-      });
+        this.router.navigateByUrl('/shifts/typesShift');
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Operación cancelada',
+          'No se realizará ninguna operación',
+          'error'
+        )
+      }
+
+    });
   }
 }

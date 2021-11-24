@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Token } from 'src/app/models/token.interface';
 
 
 import { ScheduleService } from '../../services/schedule.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-all-my-shifts',
@@ -11,7 +13,7 @@ import { ScheduleService } from '../../services/schedule.service';
 })
 export class AllMyShiftsComponent implements OnInit, OnDestroy {
 
-  name: string = "Isra";
+  employeeName: string = "";
   schedulesOfEmployee: any = [];
   timerSubscription!: Subscription;
 
@@ -22,7 +24,11 @@ export class AllMyShiftsComponent implements OnInit, OnDestroy {
     this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe((data: any) => {
 
-        this.schedulesOfEmployee = data.filter((schedule: any) => schedule.employeeName == this.name);
+        const token: Token = jwt_decode(localStorage.getItem('token')!);
+
+        this.employeeName = token.name;
+
+        this.schedulesOfEmployee = data.filter((schedule: any) => schedule.employeeName == this.employeeName);
 
       })
   }

@@ -7,20 +7,24 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <div class="row mb-4">
-                    <p>¿Con que compañero quieres cambiar el turno?</p>
-                    <select class="form-select">
-                        <option *ngFor="let employeeName of employeesNames">{{employeeName}}</option>
+                <form [formGroup]="myForm">
+                    <div class="row mb-4">
+                        <p>¿Con que compañero quieres cambiar el turno?</p>
+                        <select class="form-select" formControlName="affectedEmployee">
+                            <option *ngFor="let employeeName of employeesNames" value="{{employeeName}}">
+                                {{employeeName}}
+                            </option>
 
-                    </select>
-                </div>
-                <div class="row mb-5">
-                    <p>¿Que día quieres cambiar?</p>
-                    <input class="form-control" type="date">
-                </div>
-                <div class="row text-center">
-                    <button class="btn btn-warning">Solicitar cambio</button>
-                </div>
+                        </select>
+                    </div>
+                    <div class="row mb-5">
+                        <p>¿Que día quieres cambiar?</p>
+                        <input class="form-control" type="date" formControlName="changeDate">
+                    </div>
+                    <div class="row text-center">
+                        <button class="btn btn-warning" (click)="createChange()">Solicitar cambio</button>
+                    </div>
+                </form>
             </div>
         </div>
 

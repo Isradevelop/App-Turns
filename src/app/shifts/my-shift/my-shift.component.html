@@ -17,42 +17,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{{days[0]}}</td>
-                            <td>{{employeeSchedule.dates[0]}}</td>
-                            <td>{{employeeSchedule.shifts.monday}}</td>
+                        <tr *ngFor="let day of days; let i = index">
+                            <td>{{days[i]}}</td>
+                            <td>{{employeeSchedule.dates[i]}}</td>
+                            <td>{{employeeSchedule.shifts[i]}}</td>
                         </tr>
-                        <tr>
-                            <td>{{days[1]}}</td>
-                            <td>{{employeeSchedule.dates[1]}}</td>
-                            <td>{{employeeSchedule.shifts.tuesday}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{days[2]}}</td>
-                            <td>{{employeeSchedule.dates[2]}}</td>
-                            <td>{{employeeSchedule.shifts.wednesday}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{days[3]}}</td>
-                            <td>{{employeeSchedule.dates[3]}}</td>
-                            <td>{{employeeSchedule.shifts.thursday}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{days[4]}}</td>
-                            <td>{{employeeSchedule.dates[4]}}</td>
-                            <td>{{employeeSchedule.shifts.friday}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{days[5]}}</td>
-                            <td>{{employeeSchedule.dates[5]}}</td>
-                            <td>{{employeeSchedule.shifts.saturday}}</td>
-                        </tr>
-                        <tr>
-                            <td>{{days[6]}}</td>
-                            <td>{{employeeSchedule.dates[6]}}</td>
-                            <td>{{employeeSchedule.shifts.sunday}}</td>
-                        </tr>
-
                     </tbody>
                 </table>
 

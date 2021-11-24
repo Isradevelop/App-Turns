@@ -21,7 +21,7 @@ export class EmployeesService {
   }
 
   getEmployees() {
-    return this.http.get<AuthResponse[]>(`${this.baseUrl}/auth`);
+    return this.http.get<Employees[]>(`${this.baseUrl}/employee`);
   }
 
 

@@ -23,16 +23,8 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let schedule of schedulesOfEmployee">
-
                             <td>{{schedule.dates[0]}} - {{schedule.dates[6]}}</td>
-                            <td>{{schedule.shifts.monday}}</td>
-                            <td>{{schedule.shifts.tuesday}}</td>
-                            <td>{{schedule.shifts.wednesday}}</td>
-                            <td>{{schedule.shifts.thursday}}</td>
-                            <td>{{schedule.shifts.friday}}</td>
-                            <td>{{schedule.shifts.saturday}}</td>
-                            <td>{{schedule.shifts.sunday}}</td>
-
+                            <td *ngFor="let shift of schedule.shifts">{{shift}}</td>
                         </tr>
                     </tbody>
                 </table>

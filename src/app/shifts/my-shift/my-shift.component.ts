@@ -2,6 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ScheduleService } from '../../services/schedule.service';
+import { AuthService } from '../../services/auth.service';
+import { Token } from 'src/app/models/token.interface';
+import { Schedule } from '../../models/schedule.interface';
+import jwt_decode from 'jwt-decode';
+
 
 @Component({
   selector: 'app-my-shift',
@@ -11,13 +16,14 @@ import { ScheduleService } from '../../services/schedule.service';
 export class MyShiftComponent implements OnInit, OnDestroy {
 
   days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-  employeeName: string = "Isra";
+  employeeName: string = '';
   employeeSchedules: any = [];
   employeeSchedule: any;
   timerSubscription!: Subscription;
 
 
-  constructor(private ScheduleService: ScheduleService) {
+  constructor(private ScheduleService: ScheduleService,
+    private authService: AuthService) {
 
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
@@ -28,9 +34,14 @@ export class MyShiftComponent implements OnInit, OnDestroy {
     this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe(data => {
 
-        this.employeeSchedules = data;
+        const employeeSchedulesService: any = data;
 
-        for (let schedule of this.employeeSchedules) {
+        const token: Token = jwt_decode(localStorage.getItem('token')!);
+
+        this.employeeName = token.name;
+
+
+        for (let schedule of employeeSchedulesService) {
 
           for (let dates of schedule.dates) {
 
@@ -55,3 +66,5 @@ export class MyShiftComponent implements OnInit, OnDestroy {
   }
 
 }
+
+

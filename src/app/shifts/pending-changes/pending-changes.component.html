@@ -7,12 +7,12 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <div *ngIf="isEmpty; else noEmpty">
+                <div *ngIf="isEmptyChanges; else noEmpty">
                     <h4 class="text-center mt-5">No hay cambios pendientes</h4>
                 </div>
 
                 <ng-template #noEmpty>
-                    <div *ngFor="let change of finalChanges" class="bg-secondary border rounded m-auto">
+                    <div *ngFor="let change of changes" class="bg-secondary border rounded m-auto">
                         <h4 class="my-3">Solicitud de cambio</h4>
                         <hr>
                         <p>Empleados solicitantes del cambio: <b>{{change.applicantEmployee}} -

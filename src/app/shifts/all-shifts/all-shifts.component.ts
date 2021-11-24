@@ -18,9 +18,8 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
   timerSubscription!: Subscription;
 
   //These variables will be used to show the previous, current and next calendars
-  previus: boolean = false;
-  current: boolean = true;
-  next: boolean = false;
+  week: string = 'current';
+
 
   //this variable if there is a new week
   thereAreNextWeek: boolean = false;
@@ -29,10 +28,12 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
 
   constructor(private ScheduleService: ScheduleService) {
 
+    //formateamos la fecha actuel dd/mm
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
     let dayNumber: number = date.getUTCDate();
     let dayAndMonth: string = dayNumber.toString() + "/" + monthNumber.toString();
+
 
     this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe(data => {
@@ -60,7 +61,7 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
         //search all shifts from previus week
         for (let schedule of this.schedules) {
 
-          if (schedule.weekNumber == (this.currentWeekNumber - 1)) {
+          if (schedule.weekNumber === (this.currentWeekNumber - 1)) {
 
             this.previusSchedules.push(schedule);
 
@@ -72,7 +73,7 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
         //search all shifts from next week
         for (let schedule of this.schedules) {
 
-          if (schedule.weekNumber == (this.currentWeekNumber + 1)) {
+          if (schedule.weekNumber === (this.currentWeekNumber + 1)) {
 
             this.nextSchedules.push(schedule);
             this.thereAreNextWeek = true;
@@ -94,22 +95,10 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
 
 
 
-  previusWeek() {
-    this.previus = true;
-    this.current = false;
-    this.next = false;
+  getWeek(week: string) {
+    this.week = week;
   }
 
-  actuallyWeek() {
-    this.previus = false;
-    this.current = true;
-    this.next = false;
-  }
 
-  nextWeek() {
-    this.previus = false;
-    this.current = false;
-    this.next = true;
-  }
 
 }

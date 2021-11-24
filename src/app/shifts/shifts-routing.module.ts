@@ -5,6 +5,7 @@ import { AllMyShiftsComponent } from './all-my-shifts/all-my-shifts.component';
 import { AllShiftsComponent } from './all-shifts/all-shifts.component';
 import { ChangeShiftComponent } from './change-shift/change-shift.component';
 import { MyShiftComponent } from './my-shift/my-shift.component';
+import { PendingChangesComponent } from './pending-changes/pending-changes.component';
 import { TypesShiftComponent } from './types-shift/types-shift.component';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: 'changeShift', component: ChangeShiftComponent },
       { path: 'typesShifts', component: TypesShiftComponent },
       { path: 'allMyShifts', component: AllMyShiftsComponent },
+      { path: 'pendingChanges', component: PendingChangesComponent },
       { path: '**', redirectTo: 'allShifts' },
     ]
   }

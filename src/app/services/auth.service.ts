@@ -78,7 +78,7 @@ export class AuthService {
   }
 
 
-  //este método devuelve el usuario autenticado 
+  //este método comprueba que el usuario autenticado exista en la BD y lo retorna
   userToken() {
 
     let employeeListService: any;
@@ -93,10 +93,9 @@ export class AuthService {
           if (employeeListService) {
             const token: Token = jwt_decode(localStorage.getItem('token')!);
             const employee = employeeListService.find((employee: any) => employee.name == token.name);
-            const employeeName = employee;
 
-            (employeeName)
-              ? resolve(employeeName)
+            (employee)
+              ? resolve(employee)
               : reject('No existe token para el usuario')
           }
         });
