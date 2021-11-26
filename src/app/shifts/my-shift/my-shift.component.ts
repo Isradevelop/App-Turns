@@ -15,7 +15,7 @@ import jwt_decode from 'jwt-decode';
 })
 export class MyShiftComponent implements OnInit, OnDestroy {
 
-  days: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  days: string[] = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   employeeName: string = '';
   employeeSchedules: any = [];
   employeeSchedule: any;

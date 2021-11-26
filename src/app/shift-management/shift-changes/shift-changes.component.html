@@ -7,36 +7,39 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <div *ngIf="isEmpty; else noEmpty">
+                <div *ngIf="isEmptyChanges; else noEmpty">
                     <h4 class="text-center mt-5">No hay cambios pendientes</h4>
                 </div>
 
                 <ng-template #noEmpty>
-                    <div *ngFor="let change of finalChanges" class="bg-secondary border rounded m-auto">
+                    <div *ngFor="let change of changes" class="bg-secondary border rounded m-auto">
                         <h4 class="my-3">Solicitud de cambio</h4>
                         <hr>
-                        <p>Empleados solicitantes del cambio: <b>{{change.applicantEmployee}} -
-                                {{change.affectedEmployee}}</b></p>
+                        <p>Empleados solicitantes del cambio: <b>{{change.applicantEmployeeName}} -
+                                {{change.affectedEmployeeName}}</b></p>
                         <p>Fecha del cambio: <b>{{change.changeDate}}</b></p>
 
                         <p>Turnos antes del cambio:
                             <br>
                             <b>
-                                {{change.applicantEmployee}}: {{change.applicantShift}} /
-                                {{change.affectedEmployee}}: {{change.affectedShift}}
+                                {{change.applicantEmployeeName}}: {{change.applicantShift}} /
+                                {{change.affectedEmployeeName}}: {{change.affectedShift}}
                             </b>
                         </p>
 
                         <p>Turnos después del cambio:
                             <br>
                             <b>
-                                {{change.applicantEmployee}}: {{change.affectedShift}} /
-                                {{change.affectedEmployee}}: {{change.applicantShift}}
+                                {{change.applicantEmployeeName}}: {{change.affectedShift}} /
+                                {{change.affectedEmployeeName}}: {{change.applicantShift}}
                             </b>
                         </p>
                         <p>
-                            <button class="btn btn-warning mx-3">Aceptar</button>
-                            <button class="btn btn-danger">Rechazar</button>
+                            <button class="btn btn-warning mx-3"
+                                (click)="acceptChange(change.id, change.applicantSchedule, change.affectedSchedule, change.index)">
+                                Aceptar
+                            </button>
+                            <button class="btn btn-danger" (click)="declineChange(change._id)">Rechazar</button>
                         </p>
                     </div>
                 </ng-template>

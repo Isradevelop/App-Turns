@@ -121,19 +121,19 @@ export class ChangeShiftComponent implements OnInit {
           this.affectedSchedule,
           changeDate,
           this.status
-        )
-          .subscribe(resp => {
+        ).subscribe()
 
-            Swal.fire({
-              icon: 'success',
-              title: `Cambio creado con éxito. 
+
+        Swal.fire({
+          icon: 'success',
+          title: `Cambio creado con éxito. 
                       Recuerde que el cambio no será efectivo 
                       hasta que el usuario afectado y en encargado lo aprueben `,
-              timer: 3000
-            });
+          timer: 3000
+        });
 
-            this.router.navigateByUrl('/');
-          });
+        this.router.navigateByUrl('/');
+
 
 
 

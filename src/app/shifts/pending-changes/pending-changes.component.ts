@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
+
 
 import { AuthService } from 'src/app/services/auth.service';
 import { ChangesService } from 'src/app/services/changes.service';
 import { Employees } from '../../models/employees.interface';
-import { Change } from '../../models/change.interface';
+import Swal from 'sweetalert2';
+import { Schedule } from '../../models/schedule.interface';
+
 
 
 @Component({
@@ -13,19 +16,20 @@ import { Change } from '../../models/change.interface';
   styleUrls: ['./pending-changes.component.css']
 })
 export class PendingChangesComponent implements OnInit {
-
+  //datos necesarios para el template y para modificar los calendarios
   changes: any = [];
 
   isEmptyChanges: boolean = true;
 
   constructor(private changeService: ChangesService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private router: Router,) {
 
-
-
-    this.changeService.getChanges()
+    //consulta cambios pendientes
+    this.changeService.getChanges("pending")
       .subscribe((changes: any) => {
 
+        //consulta usuario logeado
         this.authService.userToken()
           .then((employee: any) => {
 
@@ -39,11 +43,15 @@ export class PendingChangesComponent implements OnInit {
                 let i = change.shiftApplicant.dates.indexOf(change.changeDate);
 
                 this.changes.push({
-                  applicantEmployee: change.applicantEmployee,
-                  affectedEmployee: change.affectedEmployee,
+                  id: change._id,
+                  applicantEmployeeName: change.applicantEmployee,
+                  affectedEmployeeName: change.affectedEmployee,
                   changeDate: change.changeDate,
                   applicantShift: change.shiftApplicant.shifts[i],
-                  affectedShift: change.shiftAffected.shifts[i]
+                  affectedShift: change.shiftAffected.shifts[i],
+                  applicantSchedule: change.shiftApplicant,
+                  affectedSchedule: change.shiftAffected,
+                  index: i
                 })
               }
 
@@ -55,7 +63,38 @@ export class PendingChangesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
+
+  //aceptar cambio
+  acceptChange(id: any, applicantSchedule: Schedule, affectedSchedule: Schedule, i: number) {
+
+    //cambiar status a accepted
+    this.changeService.updateChange(id, "accepted", applicantSchedule, affectedSchedule, i)
+      .subscribe();
+
+    Swal.fire({
+      icon: "success",
+      title: `Cambio aceptado!!
+            En cuanto un responsable lo autorice,
+            el cambio se hará efectivo`,
+      timer: 2000
+    });
+
+    this.router.navigateByUrl('/')
+  }
+
+  //rechazar cambio
+  declineChange(id: any) {
+    this.changeService.updateChange(id, "rejected")
+      .subscribe();
+
+    Swal.fire({
+      icon: "error",
+      title: 'Cambio rechazado!!',
+      timer: 2000
+    });
+
+    this.router.navigateByUrl('/')
+  }
 }

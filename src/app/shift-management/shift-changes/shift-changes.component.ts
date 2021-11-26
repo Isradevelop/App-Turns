@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Change } from 'src/app/models/change.interface';
+import { Router } from '@angular/router';
 
+import { Schedule } from 'src/app/models/schedule.interface';
+import { AuthService } from 'src/app/services/auth.service';
 import { ChangesService } from 'src/app/services/changes.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -13,40 +15,84 @@ import { ChangesService } from 'src/app/services/changes.service';
 export class ShiftChangesComponent implements OnInit {
 
   //esta variable se utiliza para evaluar si hay cambios pendientes de aprobar
-  isEmpty: boolean = true;
+  isEmptyChanges: boolean = true;
 
   changes: any = [];
 
-  finalChanges: any = [];
+  constructor(private changesService: ChangesService,
+    private router: Router,
+    private authService: AuthService) {
 
-  timerSubscription!: Subscription;
-
-  constructor(private changesService: ChangesService) {
-
-    this.changesService.getChanges()
+    //consulta cambios pendientes  
+    this.changesService.getChanges("accepted")
       .subscribe((changes: any) => {
 
-        changes.length === 0 ? this.isEmpty = true : this.isEmpty = false;
+        //consulta usuario logeado
+        this.authService.userToken()
+          .then((employee: any) => {
 
-        for (let change of changes) {
+            for (let change of changes) {
 
-          //esta variable será utilizada para indicar en que posición se encuentra el turno a cambiar
-          let i = change.shiftApplicant.dates.indexOf(change.changeDate);
+              if (change.affectedEmployee === employee.name) {
 
-          this.finalChanges.push({
-            applicantEmployee: change.applicantEmployee,
-            affectedEmployee: change.affectedEmployee,
-            changeDate: change.changeDate,
-            applicantShift: change.shiftApplicant.shifts[i],
-            affectedShift: change.shiftAffected.shifts[i]
-          })
-        }
-      });
+                this.isEmptyChanges = false;
+
+                //esta variable será utilizada para indicar en que posición se encuentra el turno a cambiar
+                let i = change.shiftApplicant.dates.indexOf(change.changeDate);
+
+                for (let change of changes) {
+
+
+                  this.changes.push({
+                    id: change._id,
+                    applicantEmployeeName: change.applicantEmployee,
+                    affectedEmployeeName: change.affectedEmployee,
+                    changeDate: change.changeDate,
+                    applicantShift: change.shiftApplicant.shifts[i],
+                    affectedShift: change.shiftAffected.shifts[i],
+                    applicantSchedule: change.shiftApplicant,
+                    affectedSchedule: change.shiftAffected,
+                    index: i
+                  })
+                }
+
+              };
+            }
+          }
+          )
+      }
+      )
   }
+
 
   ngOnInit(): void { }
 
 
+  acceptChange(id: any, applicantSchedule: Schedule, affectedSchedule: Schedule, i: number) {
+    this.changesService.updateChange(id, "approved", applicantSchedule, affectedSchedule, i)
+      .subscribe();
 
+    Swal.fire({
+      icon: "success",
+      title: 'Cambio aceptado!!',
+      timer: 2000
+    });
+
+    this.router.navigateByUrl('/')
+  }
+
+
+  declineChange(id: any) {
+    this.changesService.updateChange(id, "rejected")
+      .subscribe();
+
+    Swal.fire({
+      icon: "error",
+      title: 'Cambio rechazado!!',
+      timer: 2000
+    });
+
+    this.router.navigateByUrl('/')
+  }
 
 }
