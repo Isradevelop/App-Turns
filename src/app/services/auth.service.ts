@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 
 import { of, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -20,6 +20,12 @@ export class AuthService {
   private baseURL: string = environment.baseURL;
   private _employee!: Employees;
 
+  //esta variable será evaluada cuando se cargue el navbar
+  isBoss$ = new EventEmitter<boolean>();
+
+  //esta variable define el nombre de usuario en el header del app
+  userName = new EventEmitter<string>();
+
   get employee() {
     return { ...this._employee };
   }
@@ -33,7 +39,7 @@ export class AuthService {
 
     const url = `${this.baseURL}/auth`;
 
-    return this.http.post<AuthResponse>(url, { email, password })//esta petición devuelve un observable con "ok", "uid", "name" Y "token"
+    return this.http.post<any>(url, { email, password })//esta petición devuelve un observable con "ok", "uid", "name" Y "token"
       .pipe(
         tap(resp => {
 
@@ -45,6 +51,9 @@ export class AuthService {
               name: resp.name!,
               _id: resp.uid!
             }
+
+            this.isBoss$.emit(resp.isABoss);
+            this.userName.emit(resp.name);
           }
         }),
         map(resp => resp.ok),//mutamos la respuesta para mostrar solo el "ok"
@@ -63,9 +72,11 @@ export class AuthService {
       .set('x-token', localStorage.getItem('token') || ''); //en caso de no existir token devuelve un ''
 
 
-    return this.http.get<AuthResponse>(url, { headers })
+    return this.http.get<any>(url, { headers })
       .pipe(
         map(resp => {
+          this.isBoss$.emit(resp.isABoss);
+          this.userName.emit(resp.name);
           return resp.ok;
         }),
         catchError(err => of(false))

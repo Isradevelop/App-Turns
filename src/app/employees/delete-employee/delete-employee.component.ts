@@ -58,7 +58,7 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
     }
 
 
-
+    // modal de confirmación
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',

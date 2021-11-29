@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'headerFont';
-  src: url('../assets/fonts/MochiyPopPOne-Regular.ttf');
+  font-family: 'bodyFont';
+  src: url('../assets/fonts/JosefinSans-Regular.ttf');
 }
 
 @font-face {
-  font-family: 'bodyFont';
+  font-family: 'headerFont';
   src: url('../assets/fonts/ArchitectsDaughter-Regular.ttf');
 }
 

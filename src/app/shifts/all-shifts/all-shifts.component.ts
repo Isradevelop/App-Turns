@@ -28,7 +28,7 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
 
   constructor(private ScheduleService: ScheduleService) {
 
-    //formateamos la fecha actuel dd/mm
+    //formateamos la fecha actual dd/mm
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
     let dayNumber: number = date.getUTCDate();

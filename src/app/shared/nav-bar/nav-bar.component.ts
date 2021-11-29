@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import jwt_decode from 'jwt-decode';
+import { AuthService } from 'src/app/services/auth.service';
 import { Token } from '../../models/token.interface';
 
 
@@ -10,26 +11,18 @@ import { Token } from '../../models/token.interface';
 })
 export class NavBarComponent implements OnInit {
 
+  // esta variable carga la navbar dependiendo del rol de usuario
   isABoss: boolean = false;
 
-  constructor() {
-
-
-
-
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token');
 
-    if (token) {
+    this.authService.isBoss$.subscribe(resp => {
+      this.isABoss = resp;
+    });
 
-      const myToken: Token = jwt_decode(token);
-
-      console.log(myToken);
-
-      this.isABoss = myToken.isABoss;
-    }
   }
 
 }

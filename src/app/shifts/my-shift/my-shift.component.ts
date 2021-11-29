@@ -22,8 +22,7 @@ export class MyShiftComponent implements OnInit, OnDestroy {
   timerSubscription!: Subscription;
 
 
-  constructor(private ScheduleService: ScheduleService,
-    private authService: AuthService) {
+  constructor(private ScheduleService: ScheduleService) {
 
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
