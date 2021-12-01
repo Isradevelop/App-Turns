@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 
 import { EmployeesService } from '../../services/employees.service';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,8 +21,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
-  constructor(private EmployeesService: EmployeesService,
-    private router: Router) {
+  constructor(private EmployeesService: EmployeesService) {
     this.myForm = new FormGroup({
       name: new FormControl,
       email: new FormControl,
@@ -43,9 +41,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
     this.timerSubscription.unsubscribe();
   }
 
-  createEmployee(): void {
-
-
+  onSubmit(): void {
 
     if (this.checkName() && this.checkEmail() && this.checkIsABoss() && this.checkPassword()) {
 
@@ -54,7 +50,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
       this.EmployeesService.createEmployee(name, password, email, isABoss)
         .subscribe(resp => {
 
-          //comprobamos si el email está bien formado
+          //we check if the email is well formed
           if (resp.ok == false) {
 
             Swal.fire({
@@ -76,7 +72,7 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
               timer: 5000
             });
 
-            this.router.navigateByUrl('/');
+
           }
 
         })
@@ -112,7 +108,6 @@ export class CreateEmployeeComponent implements OnInit, OnDestroy {
     });
 
     return false;
-
 
   }
 

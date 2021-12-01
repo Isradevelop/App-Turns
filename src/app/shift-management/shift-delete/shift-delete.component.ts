@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+
 import { ShiftsService } from '../../services/shifts.service';
 
 @Component({
@@ -15,8 +16,7 @@ export class ShiftDeleteComponent implements OnInit, OnDestroy {
 
   timerSubscription!: Subscription;
 
-  constructor(private ShiftsService: ShiftsService,
-    private router: Router) { }
+  constructor(private ShiftsService: ShiftsService) { }
 
   ngOnInit(): void {
     this.timerSubscription = this.ShiftsService.allShifts()
@@ -30,9 +30,6 @@ export class ShiftDeleteComponent implements OnInit, OnDestroy {
   }
 
   deleteShift(id: any) {
-
-
-
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -74,7 +71,7 @@ export class ShiftDeleteComponent implements OnInit, OnDestroy {
             }
           });
 
-        this.router.navigateByUrl('/shifts/typesShift');
+
       } else if (
         /* Read more about handling dismissals below */
         result.dismiss === Swal.DismissReason.cancel

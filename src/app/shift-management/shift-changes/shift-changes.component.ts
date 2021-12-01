@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
+import Swal from 'sweetalert2';
 
 import { Schedule } from 'src/app/models/schedule.interface';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChangesService } from 'src/app/services/changes.service';
-import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,20 +14,19 @@ import Swal from 'sweetalert2';
 })
 export class ShiftChangesComponent implements OnInit {
 
-  //esta variable se utiliza para evaluar si hay cambios pendientes de aprobar
+  //this variable is used to evaluate if there are changes pending approval
   isEmptyChanges: boolean = true;
 
   changes: any = [];
 
   constructor(private changesService: ChangesService,
-    private router: Router,
     private authService: AuthService) {
 
-    //consulta cambios pendientes  
+    //check pending changes 
     this.changesService.getChanges("accepted")
       .subscribe((changes: any) => {
 
-        //consulta usuario logeado
+        //check logged user
         this.authService.userToken()
           .then((employee: any) => {
 
@@ -37,8 +36,8 @@ export class ShiftChangesComponent implements OnInit {
 
                 this.isEmptyChanges = false;
 
-                //esta variable será utilizada para indicar en que posición se encuentra el turno a cambiar
-                let i = change.shiftApplicant.dates.indexOf(change.changeDate);
+                //This variable will be used to indicate in which position the turn to change is located.
+                let turnPosition = change.shiftApplicant.dates.indexOf(change.changeDate);
 
                 for (let change of changes) {
 
@@ -48,11 +47,11 @@ export class ShiftChangesComponent implements OnInit {
                     applicantEmployeeName: change.applicantEmployee,
                     affectedEmployeeName: change.affectedEmployee,
                     changeDate: change.changeDate,
-                    applicantShift: change.shiftApplicant.shifts[i],
-                    affectedShift: change.shiftAffected.shifts[i],
+                    applicantShift: change.shiftApplicant.shifts[turnPosition],
+                    affectedShift: change.shiftAffected.shifts[turnPosition],
                     applicantSchedule: change.shiftApplicant,
                     affectedSchedule: change.shiftAffected,
-                    index: i
+                    index: turnPosition
                   })
                 }
 
@@ -78,7 +77,6 @@ export class ShiftChangesComponent implements OnInit {
       timer: 2000
     });
 
-    this.router.navigateByUrl('/')
   }
 
 
@@ -92,7 +90,6 @@ export class ShiftChangesComponent implements OnInit {
       timer: 2000
     });
 
-    this.router.navigateByUrl('/')
   }
 
 }

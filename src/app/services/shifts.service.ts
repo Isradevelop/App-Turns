@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
+import { AuthResponse } from '../models/authResponse.interface';
 import { Shift } from '../models/shift.interface';
 import { environment } from '../../environments/environment.prod';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { AuthResponse } from '../models/authResponse.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +16,19 @@ export class ShiftsService {
 
   baseUrl = environment.baseURL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router) { }
 
-  // consulta los turnos disponibles
+  // check the available shifts
   allShifts() {
-    return this.http.get<Shift[]>(`${this.baseUrl}/shift`);
+    return this.http.get<Shift[]>(`${this.baseUrl}/shift`)
+      .pipe(
+        catchError(err => of(err.error))
+      );
   }
 
 
-  //creación de turnos
+  //shift creation
   createShift(name: string, shift: string) {
 
     let shiftCreated: Shift = { name, shift };
@@ -29,14 +36,18 @@ export class ShiftsService {
 
     return this.http.post<Shift>(`${this.baseUrl}/shift`, shiftCreated)
       .pipe(
+        tap(resp => this.router.navigateByUrl('/shifts/typesShifts')),
         catchError(err => of(err.error))
-      )
-      ;
+      );
   }
 
 
-  //borrado de turnos
+  //shift deletion
   deleteShift(id: string) {
-    return this.http.delete<AuthResponse>(`${this.baseUrl}/shift/${id}`);
+    return this.http.delete<AuthResponse>(`${this.baseUrl}/shift/${id}`)
+      .pipe(
+        tap(resp => this.router.navigateByUrl('/shifts/typesShift')),
+        catchError(err => of(err.error))
+      );
   }
 }

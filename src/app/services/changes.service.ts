@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import { Change } from '../models/change.interface';
 import { environment } from '../../environments/environment.prod';
 import { Schedule } from '../models/schedule.interface';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 
 @Injectable({
@@ -17,14 +19,15 @@ export class ChangesService {
   baseUrl = environment.baseURL;
   changesCopy: any = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private router: Router,) { }
 
-  //consulta todos los cambios por status
+  //check all changes by status
   getChanges(status: string) {
     return this.http.get(`${this.baseUrl}/change/${status}`);
   }
 
-  //crea un nuevo cambio
+  //create a new change
   createChange(
     applicantEmployee: string,
     affectedEmployee: string,
@@ -42,14 +45,24 @@ export class ChangesService {
       );
   }
 
-  //cambia el status del cambio
-  //@params: id del cambio y nuevo status
+  //change the status of the change and makes the shift change
+  //@params: change id and new status
   updateChange(_id: string, status: string, applicantSchedule?: Schedule, affectedSchedule?: Schedule, i?: number) {
 
+
+
     if (i) {
-      return this.http.put<Change>(`${this.baseUrl}/change`, { _id, status, applicantSchedule, affectedSchedule, i });
+      return this.http.put<Change>(`${this.baseUrl}/change`, { _id, status, applicantSchedule, affectedSchedule, i })
+        .pipe(
+          tap(resp => this.router.navigateByUrl('/')),
+          catchError(err => of(err))
+        );
     } else {
-      return this.http.put<Change>(`${this.baseUrl}/change`, { _id, status });
+      return this.http.put<Change>(`${this.baseUrl}/change`, { _id, status })
+        .pipe(
+          tap(resp => this.router.navigateByUrl('/')),
+          catchError(err => of(err))
+        );
     }
 
   }

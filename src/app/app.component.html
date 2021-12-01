@@ -1,40 +1,6 @@
 <div class="container bg-dark rounded">
 
-  <header>
-    <div class="row text-white w-100 m-auto mt-5">
-      <h1 class="text-center my-5" id="header">
-        {{title}}
-
-        <h6 class=" float-end mx-4 dropdown" data-bs-toggle="modal" data-bs-target="#logoutModal">
-          {{userName}}
-        </h6>
-
-        <!-- Modal -->
-        <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h2 class="text-black">Cerrar sesión</h2>
-              </div>
-              <div class="modal-body">
-                <p class="text-black">¿Estás seguro de querer cerrar la sesión actual?</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atrás</button>
-                <button type="button" class="btn btn-primary" (click)="logout()" data-bs-dismiss="modal">
-                  Cerrar sesión
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </h1>
-
-
-
-    </div>
-    <hr>
-  </header>
+  <app-header></app-header>
 
   <div class="row">
     <app-nav-bar></app-nav-bar>

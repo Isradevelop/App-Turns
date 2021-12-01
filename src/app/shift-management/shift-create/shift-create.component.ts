@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
-import { catchError, map } from 'rxjs/operators';
 
-import { Shift } from 'src/app/models/shift.interface';
 import { ShiftsService } from 'src/app/services/shifts.service';
-import { of } from 'rxjs';
+
 
 @Component({
   selector: 'app-shift-create',
@@ -23,8 +20,7 @@ export class ShiftCreateComponent implements OnInit {
 
   mysShiftsList: any = [];
 
-  constructor(private shiftService: ShiftsService,
-    private router: Router) {
+  constructor(private shiftService: ShiftsService) {
 
     this.myForm = new FormGroup({
       name: new FormControl(),
@@ -37,7 +33,7 @@ export class ShiftCreateComponent implements OnInit {
       .subscribe(data => this.mysShiftsList = data);
   }
 
-  createShift() {
+  onSubmit() {
 
     if (this.checkName() && this.checkEmptyShift()) {
 
@@ -55,7 +51,7 @@ export class ShiftCreateComponent implements OnInit {
 
           } else {
 
-            Swal.fire({
+            return Swal.fire({
               icon: 'success',
               title: `Nuevo horario creado.
                         Nombre: ${this.myForm.value.name}
@@ -63,10 +59,6 @@ export class ShiftCreateComponent implements OnInit {
               timer: 1500
 
             });
-
-            this.router.navigateByUrl('/shifts/typesShifts');
-
-            return;
           }
 
 

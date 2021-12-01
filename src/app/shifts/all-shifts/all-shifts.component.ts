@@ -28,7 +28,7 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
 
   constructor(private ScheduleService: ScheduleService) {
 
-    //formateamos la fecha actual dd/mm
+    //we format the current date dd / mm
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
     let dayNumber: number = date.getUTCDate();
@@ -81,8 +81,6 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
 
         }
 
-
-
       });
 
   }
@@ -92,7 +90,6 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.timerSubscription.unsubscribe();
   }
-
 
 
   getWeek(week: string) {

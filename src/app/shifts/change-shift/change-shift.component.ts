@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router'
 
 import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
@@ -32,24 +31,23 @@ export class ChangeShiftComponent implements OnInit {
 
   constructor(private employeesService: EmployeesService,
     private scheduleService: ScheduleService,
-    private changeService: ChangesService,
-    private router: Router) {
+    private changeService: ChangesService) {
 
     this.myForm = new FormGroup({
       affectedEmployee: new FormControl,
       changeDate: new FormControl
     });
 
-    //almacenamos el nombre del usuario autenticado
+    //we store the name of the authenticated user
     const token: Token = jwt_decode(localStorage.getItem('token')!);
     this.applicantEmployeeName = token.name;
   }
 
   ngOnInit(): void {
-    //cargar el select del template
+    //load the template's select
     this.employeesService.getEmployees()
       .subscribe(allEmployees => {
-        allEmployees.forEach(employee => this.employeesNames.push(employee.name));
+        allEmployees.forEach((employee: any) => this.employeesNames.push(employee.name));
 
       });
   }
@@ -57,7 +55,7 @@ export class ChangeShiftComponent implements OnInit {
 
   createChange() {
 
-    //formateamos la fecha del cambio dd/mm
+    //we format the current date dd / mm
     const arrayDate = this.myForm.value.changeDate.split("-");
     const day: string = arrayDate[2];
     const month: string = arrayDate[1];
@@ -71,15 +69,15 @@ export class ChangeShiftComponent implements OnInit {
         let affectedSchedulesByName: any[] = [];
 
 
-        //calendarios del solicitante del cambio
-        schedules.forEach(schedule => {
+        //change requester calendars
+        schedules.forEach((schedule: any) => {
           if (schedule.employeeName == this.applicantEmployeeName) {
             applicantSchedulesByName.push(schedule);
           }
 
           if (applicantSchedulesByName) {
 
-            //calendario del solicitante con la fecha que se quiere cambiar
+            //applicant's calendar with the date you want to change
             applicantSchedulesByName.forEach((schedule: Schedule) => {
               schedule.dates.forEach(date => {
                 if (date === changeDate) {
@@ -92,15 +90,15 @@ export class ChangeShiftComponent implements OnInit {
         });
 
 
-        //calendario del empleado afectado por el cambio
-        schedules.forEach(schedule => {
+        //schedules of the employee affected by the change
+        schedules.forEach((schedule: any) => {
           if (schedule.employeeName == this.myForm.value.affectedEmployee) {
             affectedSchedulesByName.push(schedule);
           }
 
           if (affectedSchedulesByName) {
 
-            //calendario del solicitante con la fecha que se quiere cambiar
+            //applicant's calendar with the date you want to change
             affectedSchedulesByName.forEach((schedule: Schedule) => {
               schedule.dates.forEach(date => {
                 if (date === changeDate) {
@@ -132,14 +130,9 @@ export class ChangeShiftComponent implements OnInit {
           timer: 3000
         });
 
-        this.router.navigateByUrl('/');
-
-
-
 
 
       });
   }
-
 
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import Swal from 'sweetalert2';
 
@@ -18,7 +17,6 @@ export class LoginComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder,
-    private router: Router,
     private authService: AuthService) {
 
     this.myForm = new FormGroup({
@@ -30,13 +28,13 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login() {
+  onSubmit() {
     const { email, password } = this.myForm.value;
 
-    this.authService.login(email, password)// authService.login() retorna  ok: boolean. true en caso de encontrar empleado con ese email y pass
+    this.authService.login(email, password)// authService.login() return  ok: boolean. true in case of finding an employee with that email and pass
       .subscribe(ok => {
 
-        //Modal con mensaje success o error
+        //Modal with success or error message
         if (ok === true) {
 
           Swal.fire({
@@ -45,7 +43,7 @@ export class LoginComponent implements OnInit {
             showConfirmButton: false,
             timer: 1200
           });
-          this.router.navigateByUrl('/');
+
 
         } else {
 

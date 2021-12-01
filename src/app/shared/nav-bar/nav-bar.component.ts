@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import jwt_decode from 'jwt-decode';
 import { AuthService } from 'src/app/services/auth.service';
-import { Token } from '../../models/token.interface';
+
 
 
 @Component({
@@ -11,7 +10,7 @@ import { Token } from '../../models/token.interface';
 })
 export class NavBarComponent implements OnInit {
 
-  // esta variable carga la navbar dependiendo del rol de usuario
+  // this variable loads the navbar depending on the user role
   isABoss: boolean = false;
 
   constructor(private authService: AuthService) {

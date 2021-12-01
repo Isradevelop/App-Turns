@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import jwt_decode from "jwt-decode";
 import Swal from 'sweetalert2';
 
 import { EmployeesService } from '../../services/employees.service';
-import { Token } from '../../models/token.interface';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -16,9 +13,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent implements OnInit {
-
-  //this variable is used for kill the service subscription
-  timerSubscription!: Subscription;
 
   employees: any = [];
 
@@ -42,11 +36,11 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
 
     this.authService.userToken()
-      .then(employee => this.employee = employee);
+      .then(employeeToken => this.employee = employeeToken);
   }
 
 
-  change(): void {
+  onSubmit(): void {
 
     if (this.checkOldAndNewPassword()) {
 

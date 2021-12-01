@@ -7,7 +7,7 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <form [formGroup]="myForm">
+                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                     <div class="row mb-4">
                         <p>Introduce el nombre</p>
                         <input class="form-control" formControlName="name" type="text">
@@ -32,7 +32,7 @@
                         <input class="form-control" formControlName="confirmPassword" type="password">
                     </div>
                     <div class="row text-center">
-                        <button class="btn btn-warning" (click)="createEmployee()">Crear</button>
+                        <button class="btn btn-warning" type="submit">Crear</button>
                     </div>
                 </form>
             </div>

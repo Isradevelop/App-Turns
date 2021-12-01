@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
+import Swal from 'sweetalert2';
 
 import { AuthService } from 'src/app/services/auth.service';
 import { ChangesService } from 'src/app/services/changes.service';
-import Swal from 'sweetalert2';
 import { Schedule } from '../../models/schedule.interface';
 
 
@@ -15,20 +14,19 @@ import { Schedule } from '../../models/schedule.interface';
   styleUrls: ['./pending-changes.component.css']
 })
 export class PendingChangesComponent implements OnInit {
-  //datos necesarios para el template y para modificar los calendarios
+  //data necessary for the template and to modify the calendars
   changes: any = [];
 
   isEmptyChanges: boolean = true;
 
   constructor(private changeService: ChangesService,
-    private authService: AuthService,
-    private router: Router,) {
+    private authService: AuthService) {
 
-    //consulta cambios pendientes
+    //check pending changes
     this.changeService.getChanges("pending")
       .subscribe((changes: any) => {
 
-        //consulta usuario logeado
+        //check logged user
         this.authService.userToken()
           .then((employee: any) => {
 
@@ -38,19 +36,19 @@ export class PendingChangesComponent implements OnInit {
 
                 this.isEmptyChanges = false;
 
-                //esta variable será utilizada para indicar en que posición se encuentra el turno a cambiar
-                let i = change.shiftApplicant.dates.indexOf(change.changeDate);
+                //This variable will be used to indicate in which position the turn to change is located.
+                let shiftPosition = change.shiftApplicant.dates.indexOf(change.changeDate);
 
                 this.changes.push({
                   id: change._id,
                   applicantEmployeeName: change.applicantEmployee,
                   affectedEmployeeName: change.affectedEmployee,
                   changeDate: change.changeDate,
-                  applicantShift: change.shiftApplicant.shifts[i],
-                  affectedShift: change.shiftAffected.shifts[i],
+                  applicantShift: change.shiftApplicant.shifts[shiftPosition],
+                  affectedShift: change.shiftAffected.shifts[shiftPosition],
                   applicantSchedule: change.shiftApplicant,
                   affectedSchedule: change.shiftAffected,
-                  index: i
+                  index: shiftPosition
                 })
               }
 
@@ -68,7 +66,7 @@ export class PendingChangesComponent implements OnInit {
   //aceptar cambio
   acceptChange(id: any, applicantSchedule: Schedule, affectedSchedule: Schedule, i: number) {
 
-    //cambiar status a accepted
+    //change status a accepted and makes the shift change
     this.changeService.updateChange(id, "accepted", applicantSchedule, affectedSchedule, i)
       .subscribe();
 
@@ -80,10 +78,9 @@ export class PendingChangesComponent implements OnInit {
       timer: 2000
     });
 
-    this.router.navigateByUrl('/')
   }
 
-  //rechazar cambio
+  //reject change
   declineChange(id: any) {
     this.changeService.updateChange(id, "rejected")
       .subscribe();
@@ -94,6 +91,5 @@ export class PendingChangesComponent implements OnInit {
       timer: 2000
     });
 
-    this.router.navigateByUrl('/')
   }
 }

@@ -7,7 +7,7 @@
 
         <div class="card-body mb-5">
             <div class="row">
-                <form [formGroup]="myForm">
+                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                     <div class="row mb-5">
                         <p>Introduce el nombre del empleado que quieres eliminar</p>
                         <select class="form-select" formControlName="name">
@@ -16,7 +16,7 @@
                         </select>
                     </div>
                     <div class="row text-center">
-                        <button class="btn btn-warning" (click)="deleteEmployee()">Eliminar</button>
+                        <button class="btn btn-warning" type="submit">Eliminar</button>
                     </div>
                 </form>
             </div>

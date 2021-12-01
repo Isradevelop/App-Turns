@@ -1,16 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { of, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
 
 import { environment } from 'src/environments/environment';
 
-import { AuthResponse } from '../models/authResponse.interface';
 import { Employees } from '../models/employees.interface';
 import { Token } from '../models/token.interface';
 import { EmployeesService } from './employees.service';
-import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +20,10 @@ export class AuthService {
   private baseURL: string = environment.baseURL;
   private _employee!: Employees;
 
-  //esta variable será evaluada cuando se cargue el navbar
+  //this variable will be evaluated when the navbar loads
   isBoss$ = new EventEmitter<boolean>();
 
-  //esta variable define el nombre de usuario en el header del app
+  //this variable defines the username in the header of the app
   userName = new EventEmitter<string>();
 
   get employee() {
@@ -31,20 +31,21 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient,
-    private employeeService: EmployeesService) { }
+    private employeeService: EmployeesService,
+    private router: Router) { }
 
 
-  //esta función hace una petición post al back, con el email y el password y devuelve el "ok" o error
+  //this function makes a POST request to the back, with email and password, and return "ok" or error 
   login(email: string, password: string) {
 
     const url = `${this.baseURL}/auth`;
 
-    return this.http.post<any>(url, { email, password })//esta petición devuelve un observable con "ok", "uid", "name" Y "token"
+    return this.http.post<any>(url, { email, password })//this request returns a observable with "ok", "uid", "name" Y "token"
       .pipe(
         tap(resp => {
 
           if (resp.ok) {
-            //almacenamos el token en el local storage
+            //we store the token in the local storage
             localStorage.setItem('token', resp.token!)
 
             this._employee = {
@@ -54,22 +55,23 @@ export class AuthService {
 
             this.isBoss$.emit(resp.isABoss);
             this.userName.emit(resp.name);
+            this.router.navigateByUrl('/');
           }
         }),
-        map(resp => resp.ok),//mutamos la respuesta para mostrar solo el "ok"
+        map(resp => resp.ok),//we mutate the answer to show only the "ok"
         catchError(err => of(err.error.msg))
       )
   }
 
 
 
-  //esta función hace una petición GET para validar nuestro token
+  //this function makes a GET request to validate our token. Returns boolean observable
   validateToken(): Observable<boolean> {
     const url = `${this.baseURL}/auth/renew`;
 
     //
     const headers = new HttpHeaders()
-      .set('x-token', localStorage.getItem('token') || ''); //en caso de no existir token devuelve un ''
+      .set('x-token', localStorage.getItem('token') || ''); //in case there is no token, returns ''
 
 
     return this.http.get<any>(url, { headers })
@@ -89,7 +91,7 @@ export class AuthService {
   }
 
 
-  //este método comprueba que el usuario autenticado exista en la BD y lo retorna
+  //this method verifies that the authenticated user exists in the DB and returns it
   userToken() {
 
     let employeeListService: any;

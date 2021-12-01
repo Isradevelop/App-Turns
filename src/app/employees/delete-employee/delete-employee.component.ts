@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 
 import { EmployeesService } from 'src/app/services/employees.service';
 import { Employees } from '../../models/employees.interface';
-import swal from 'sweetalert2';
-import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-delete-employee',
@@ -21,8 +21,7 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
 
   myForm: FormGroup;
 
-  constructor(private employeesService: EmployeesService,
-    private router: Router) {
+  constructor(private employeesService: EmployeesService) {
     this.myForm = new FormGroup({
       name: new FormControl,
     });
@@ -42,12 +41,12 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
     this.timerSubscription.unsubscribe();
   }
 
-  deleteEmployee() {
+  onSubmit() {
 
     const name = this.myForm.value.name;
 
     if (name === null) {
-      swal.fire({
+      Swal.fire({
         icon: 'error',
         title: 'El usuario introducido es incorrecto, por favor inténtalo de nuevo',
         showConfirmButton: false,
@@ -58,7 +57,7 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
     }
 
 
-    // modal de confirmación
+    // confirm modal
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -87,9 +86,8 @@ export class DeleteEmployeeComponent implements OnInit, OnDestroy {
             )
           });
 
-        this.router.navigateByUrl('/');
       } else if (
-        /* Read more about handling dismissals below */
+
         result.dismiss === Swal.DismissReason.cancel
       ) {
         swalWithBootstrapButtons.fire(
