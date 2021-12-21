@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
 import { AuthResponse } from '../models/authResponse.interface';
 import { Shift } from '../models/shift.interface';
@@ -23,6 +23,21 @@ export class ShiftsService {
   allShifts() {
     return this.http.get<Shift[]>(`${this.baseUrl}/shift`)
       .pipe(
+        catchError(err => of(err.error))
+      );
+  }
+
+  // check the available shifts names
+  allShiftsNames() {
+    let names: string[] = [];
+    return this.http.get<Shift[]>(`${this.baseUrl}/shift`)
+      .pipe(
+        map(resp => {
+          resp.forEach((shift: Shift) => {
+            names.push(shift.name);
+          });
+          return names;
+        }),
         catchError(err => of(err.error))
       );
   }

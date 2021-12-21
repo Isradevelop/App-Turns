@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import { environment } from '../../environments/environment.prod';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { AuthResponse } from '../models/authResponse.interface';
@@ -25,6 +25,20 @@ export class EmployeesService {
   getEmployees() {
     return this.http.get<Employees[]>(`${this.baseUrl}/employee`)
       .pipe(
+        catchError(err => of(err))
+      );
+  }
+
+  getEmployeesNames() {
+    let employeesNames: string[] = [];
+    return this.http.get<Employees[]>(`${this.baseUrl}/employee`)
+      .pipe(
+        map((resp: Employees[]) => {
+          resp.forEach((employee: Employees) => {
+            employeesNames.push(employee.name);
+          });
+          return employeesNames;
+        }),
         catchError(err => of(err))
       );
   }
