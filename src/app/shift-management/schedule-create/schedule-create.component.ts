@@ -3,12 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import Swal from 'sweetalert2';
-
+import * as moment from 'moment';
 
 import { ShiftsService } from '../../services/shifts.service';
 import { EmployeesService } from '../../services/employees.service';
 import { ScheduleService } from '../../services/schedule.service';
-
 
 
 @Component({
@@ -28,10 +27,8 @@ export class ScheduleCreateComponent implements OnInit {
     private fb: FormBuilder) {
 
 
-
     this.myForm = this.fb.group({
       from: ['', Validators.required],
-      to: ['', Validators.required],
       employeeName: ['', Validators.required],
       mondayShift: ['', Validators.required],
       tuesdayShift: ['', Validators.required],
@@ -60,10 +57,9 @@ export class ScheduleCreateComponent implements OnInit {
   }
 
   onSubmit() {
-
+    //form references
     const employeeName: string = this.myForm.value.employeeName;
     const from: string = this.myForm.value.from;
-    const to: string = this.myForm.value.to;
     const mondayShift: string = this.myForm.value.mondayShift;
     const tuesdayShift: string = this.myForm.value.tuesdayShift;
     const wednesdayShift: string = this.myForm.value.wednesdayShift;
@@ -74,127 +70,57 @@ export class ScheduleCreateComponent implements OnInit {
 
     const fromList = from.split('-');
 
-    const year = fromList[0];
-    const month = fromList[1];
+    const day = parseInt(fromList[2]);
+    const year = parseInt(fromList[0]);
+    const month = parseInt(fromList[1]);
+    const dates: string[] = [];
 
-    const shifts: string[] = [mondayShift, tuesdayShift, wednesdayShift, thursdayShift, fridayShift, saturdayShift, sundayShift];
-
-    const dates = this.checkDate(from, to);
-
-    this.scheduleService.createSchedule(employeeName, dates, shifts, year, month)
-      .subscribe(scheduleCreated => {
-        if (scheduleCreated) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Calendario creado con éxito',
-            timer: 2500
-          })
-        }
+    // validations
+    if (from.length === 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Por favor introduce fecha',
+        timer: 2500
       });
-  }
+    } else {
 
-  //this method create the dates for the new schedule
-  checkDate(from: string, to: string) {
-
-    // format the date From and To
-    let fromList: string[] = from.split('-');
-    let toList: string[] = to.split('-');
-
-
-    let dayFromNumeric = parseInt(fromList[2]);
-    let dayToNumeric = parseInt(toList[2]);
-    let monthFromNumeric = parseInt(fromList[1]);
-    let monthToNumeric = parseInt(toList[1]);
-    let yearFromNumeric = parseInt(fromList[0]);
-    let yearToNumeric = parseInt(toList[0]);
-
-
-    let array: string[] = [];
-    let counter: number = 1;
-
-    for (let i = 0; i < 7; i++) {
-
-      //check if year and month are same in From / To
-      if (dayFromNumeric < dayToNumeric && monthFromNumeric === monthToNumeric && fromList[0] === toList[0]) {
-
-        let date = (dayFromNumeric + i) + '/' + fromList[1];
-        array.push(date);
-      }
-      //ckeck if are distinct months and years
-      else if ((monthFromNumeric > monthToNumeric && yearFromNumeric < yearToNumeric) || (monthFromNumeric < monthToNumeric && yearFromNumeric === yearToNumeric) || (dayFromNumeric < dayToNumeric && monthFromNumeric === monthToNumeric)) {
-
-        let date: string;
-        // months with 31 days
-        if (fromList[1] === '01' || fromList[1] === '03' || fromList[1] === '05' || fromList[1] === '07' || fromList[1] === '08' || fromList[1] === '10' || fromList[1] === '12') {
-
-          if (dayFromNumeric < 32) {
-            date = dayFromNumeric + '/' + fromList[1];
-            array.push(date);
-            dayFromNumeric = dayFromNumeric + 1;
-          }
-          else {
-            date = counter + '/' + toList[1];
-            array.push(date);
-            counter++;
-          }
-
-        }
-        //check if the month is february
-        else if (fromList[1] === '02') {
-          let leap: number = parseInt(fromList[0]) / 4;
-          //check if the year is leap
-          if (Number.isInteger(leap)) {
-
-            if (dayFromNumeric < 30) {
-              date = dayFromNumeric + '/' + fromList[1];
-              array.push(date);
-              dayFromNumeric = dayFromNumeric + 1;
-            }
-            else {
-              date = counter + '/' + toList[1];
-              array.push(date);
-              counter++;
-            }
-          }
-          else {
-            if (dayFromNumeric < 29) {
-              date = dayFromNumeric + '/' + fromList[1];
-              array.push(date);
-              dayFromNumeric = dayFromNumeric + 1;
-            }
-            else {
-              date = counter + '/' + toList[1];
-              array.push(date);
-              counter++;
-            }
-          }
-        }
-        //months with 30 days
-        else {
-          if (dayFromNumeric < 31) {
-            date = dayFromNumeric + '/' + fromList[1];
-            array.push(date);
-            dayFromNumeric = dayFromNumeric + 1;
-          }
-          else {
-            date = counter + '/' + toList[1];
-            array.push(date);
-            counter++;
-          }
-        }
-      }
-      else {
+      if (employeeName.length === 0) {
         Swal.fire({
           icon: 'error',
-          title: 'La fecha Hasta tiene que ser posterior a la fecha Desde',
+          title: 'Por favor introduce empleado',
           timer: 2500
         });
+      } else {
+
+        if (mondayShift.length === 0 || tuesdayShift.length === 0 || wednesdayShift.length === 0 || thursdayShift.length === 0 || fridayShift.length === 0 || saturdayShift.length === 0 || sundayShift.length === 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Por favor introduce turnos',
+            timer: 2500
+          });
+        } else {
+
+          // charge array dates with moment.js
+          let date = moment.utc(`${year}-${month}-${day}`);
+          for (let i = 0; i < 7; i++) {
+            dates.push(date.format("DD/MM"));
+            date.add(1, 'd');
+          }
+
+          const shifts: string[] = [mondayShift, tuesdayShift, wednesdayShift, thursdayShift, fridayShift, saturdayShift, sundayShift];
+
+
+          this.scheduleService.createSchedule(employeeName, dates, shifts, fromList[0], fromList[1])
+            .subscribe(schedule => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Calendario creado con éxito',
+                timer: 2500
+              })
+            })
+        }
+
       }
     }
-    return array;
-
-
-
   }
-
 }
