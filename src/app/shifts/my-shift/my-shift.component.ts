@@ -29,6 +29,37 @@ export class MyShiftComponent implements OnInit, OnDestroy {
     let dayNumber: number = date.getUTCDate();
     let dayAndMonth: string = dayNumber.toString() + "/" + monthNumber.toString();
 
+    //format   d / mm   to   0d / mm
+    if (dayNumber < 10 || monthNumber < 10) {
+      let dayString: string = '';
+      let monthString: string = '';
+
+      if (dayNumber < 10) {
+        dayString = '0' + dayNumber.toString();
+      }
+
+      if (monthNumber < 10) {
+        monthString = '0' + monthNumber.toString();
+      }
+
+      if (dayString != '' && monthString != '') {
+
+        dayAndMonth = dayString + "/" + monthString;
+
+      } else if (dayString != '') {
+
+        dayAndMonth = dayString + "/" + monthNumber.toString();
+
+      } else {
+
+        dayAndMonth = "0" + dayNumber.toString() + "/" + monthString;
+      }
+
+    } else {
+
+      dayAndMonth = dayNumber.toString() + "/" + monthNumber.toString();
+    }
+
 
     this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe(data => {

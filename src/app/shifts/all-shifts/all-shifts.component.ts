@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { isEmpty } from 'rxjs/operators';
 import { Schedule } from '../../models/schedule.interface';
 import { ScheduleService } from '../../services/schedule.service';
 
@@ -32,8 +33,39 @@ export class AllShiftsComponent implements OnInit, OnDestroy {
     let date: Date = new Date();
     let monthNumber: number = date.getUTCMonth() + 1;
     let dayNumber: number = date.getUTCDate();
-    let dayAndMonth: string = dayNumber.toString() + "/" + monthNumber.toString();
+    let dayAndMonth: string
 
+
+    //format   d / mm   to   0d / mm
+    if (dayNumber < 10 || monthNumber < 10) {
+      let dayString: string = '';
+      let monthString: string = '';
+
+      if (dayNumber < 10) {
+        dayString = '0' + dayNumber.toString();
+      }
+
+      if (monthNumber < 10) {
+        monthString = '0' + monthNumber.toString();
+      }
+
+      if (dayString != '' && monthString != '') {
+
+        dayAndMonth = dayString + "/" + monthString;
+
+      } else if (dayString != '') {
+
+        dayAndMonth = dayString + "/" + monthNumber.toString();
+
+      } else {
+
+        dayAndMonth = "0" + dayNumber.toString() + "/" + monthString;
+      }
+
+    } else {
+
+      dayAndMonth = dayNumber.toString() + "/" + monthNumber.toString();
+    }
 
     this.timerSubscription = this.ScheduleService.getSchedules()
       .subscribe(data => {
