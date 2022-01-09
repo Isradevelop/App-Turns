@@ -5,6 +5,8 @@ import { Schedule } from 'src/app/models/schedule.interface';
 import { EmployeesService } from 'src/app/services/employees.service';
 import Swal from 'sweetalert2';
 import { ScheduleService } from '../../services/schedule.service';
+import { ShiftsService } from '../../services/shifts.service';
+import { Shift } from '../../models/shift.interface';
 
 @Component({
   selector: 'app-night-hours',
@@ -17,9 +19,13 @@ export class NightHoursComponent implements OnInit {
   myForm: FormGroup;
   employees: Employees[] = [];
   schedules: any = [];
+  shifts: Shift[] = [];
   hasSchedules: boolean = false;
 
-  constructor(private employeesService: EmployeesService, private scheduleService: ScheduleService) {
+  constructor(private employeesService: EmployeesService,
+    private scheduleService: ScheduleService,
+    private shiftService: ShiftsService) {
+
     this.myForm = new FormGroup({
       name: new FormControl,
     });
@@ -49,21 +55,30 @@ export class NightHoursComponent implements OnInit {
       return;
     }
 
+    this.shiftService.allShifts()
+      .subscribe((shifts: Shift[]) => {
+        this.shifts = shifts;
+        console.log(shifts);
+      })
+
+
     this.scheduleService.getScheduleByEmployeeName(name)
       .subscribe((schedules: Schedule[]) => {
 
         if (schedules.length > 0) {
 
-
           this.hasSchedules = true;
 
           schedules.forEach(schedule => {
             let counter: number = 0;
-            schedule.shifts.forEach(shift => {
 
-              if (shift === 'P-2' || shift === 'T') {
-                counter++;
-              }
+            schedule.shifts.forEach(scheduleShift => {
+
+              this.shifts.forEach(aviableShift => {
+                if (aviableShift.name == scheduleShift) {
+                  counter += aviableShift.nightHours;
+                }
+              })
             })
 
             const customSchedule: object = {

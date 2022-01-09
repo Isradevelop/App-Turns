@@ -24,7 +24,8 @@ export class ShiftCreateComponent implements OnInit {
 
     this.myForm = new FormGroup({
       name: new FormControl(),
-      shift: new FormControl()
+      shift: new FormControl(),
+      nightHours: new FormControl()
     })
   }
 
@@ -35,9 +36,9 @@ export class ShiftCreateComponent implements OnInit {
 
   onSubmit() {
 
-    if (this.checkName() && this.checkEmptyShift()) {
+    if (this.checkName() && this.checkEmptyShift() && this.checkEmptyNightHours()) {
 
-      this.shiftService.createShift(this.myForm.value.name, this.myForm.value.shift)
+      this.shiftService.createShift(this.myForm.value.name, this.myForm.value.shift, this.myForm.value.nightHours)
         .subscribe(resp => {
 
           if (resp.ok == false) {
@@ -121,6 +122,22 @@ export class ShiftCreateComponent implements OnInit {
       return false;
     }
 
+  }
+
+
+  checkEmptyNightHours(): boolean {
+    if (this.myForm.value.nightHours == null) {
+
+      Swal.fire({
+        icon: 'error',
+        title: 'El número de horas nocturnas no puede estar vacío',
+        timer: 2000
+      });
+
+      return false;
+    }
+
+    return true;
   }
 
 }

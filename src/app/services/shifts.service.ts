@@ -44,10 +44,9 @@ export class ShiftsService {
 
 
   //shift creation
-  createShift(name: string, shift: string) {
+  createShift(name: string, shift: string, nightHours: number) {
 
-    let shiftCreated: Shift = { name, shift };
-    console.log('service', shiftCreated);
+    let shiftCreated: Shift = { name, shift, nightHours };
 
     return this.http.post<Shift>(`${this.baseUrl}/shift`, shiftCreated)
       .pipe(
