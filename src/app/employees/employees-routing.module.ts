@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { CreateEmployeeComponent } from './create-employee/create-employee.component';
 import { DeleteEmployeeComponent } from './delete-employee/delete-employee.component';
+import { NightHoursComponent } from './night-hours/night-hours.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
       { path: 'createEmployee', component: CreateEmployeeComponent },
       { path: 'deleteEmployee', component: DeleteEmployeeComponent },
       { path: 'changePassword', component: ChangePasswordComponent },
+      { path: 'nightHours', component: NightHoursComponent },
       { path: '**', redirectTo: 'createEmployee' }
     ]
   }

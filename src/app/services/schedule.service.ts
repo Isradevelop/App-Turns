@@ -40,7 +40,19 @@ export class ScheduleService {
         catchError(err => of(err))
 
       )
+  }
 
+
+  //select all schedules by name of employee
+  getScheduleByEmployeeName(name: string) {
+    return this.http.get<Schedule[]>(`${this.baseUrl}/schedule/scheduleByName/${name}`)
+      .pipe(
+        tap(resp => {
+
+          return resp;
+        }),
+        catchError(err => of(err))
+      )
   }
 
 

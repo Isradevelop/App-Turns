@@ -29,70 +29,66 @@
                     </div>
                 </div>
 
-                <div class="row mb-4 mt-3">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <td class="text-center">L</td>
-                            <td class="text-center">M</td>
-                            <td class="text-center">X</td>
-                            <td class="text-center">J</td>
-                            <td class="text-center">V</td>
-                            <td class="text-center">S</td>
-                            <td class="text-center">D</td>
-                        </thead>
-                        <tr>
-                            <td>
-                                <select class="form-select" formControlName="mondayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="tuesdayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="wednesdayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="thursdayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="fridayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="saturdayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select class="form-select" formControlName="sundayShift">
-                                    <option></option>
-                                    <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
-                                        {{shiftName}}</option>
-                                </select>
-                            </td>
+                <hr class="my-5">
+                <h4 class="text-center">Turnos</h4>
 
-                        </tr>
-                    </table>
+                <div class="row mb-4 mt-3">
+                    <div class="col-12 mb-3">
+                        <label for='mondayShift'>Lunes</label>
+                        <select class="form-select" formControlName="mondayShift" id="mondayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='tuesdayShift'>Martes</label>
+                        <select class="form-select" formControlName="tuesdayShift" id="tuesdayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='wednesdayShift'>Miércoles</label>
+                        <select class="form-select" formControlName="wednesdayShift" id="wednesdayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='thursdayShift'>Jueves</label>
+                        <select class="form-select" formControlName="thursdayShift" id="thursdayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='fridayShift'>Viernes</label>
+                        <select class="form-select" formControlName="fridayShift" id="fridayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='saturdayShift'>Sábado</label>
+                        <select class="form-select" formControlName="saturdayShift" id="saturdayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for='sundayShift'>Domingo</label>
+                        <select class="form-select" formControlName="sundayShift" id="sundayShift">
+                            <option></option>
+                            <option *ngFor="let shiftName of shiftsNames" value="{{shiftName}}">
+                                {{shiftName}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <input class="btn btn-warning my-3 col-5 ms-2" type="submit" value="Crear">

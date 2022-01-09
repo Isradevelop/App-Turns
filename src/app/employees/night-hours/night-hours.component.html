@@ -1,0 +1,35 @@
+<div class="row bg-light mx-3 rounded mt-5">
+    <div class="card ">
+
+        <div class="card-header">
+            <h2 class="text-center">Horas nocturnas</h2>
+        </div>
+
+        <div class="card-body mb-5">
+            <div class="row">
+                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                    <div class="row mb-5">
+                        <p>Nombre de empleado</p>
+                        <select class="form-select" formControlName="name">
+                            <option *ngFor="let employee of employees" class="text-black" value="{{employee.name}}">
+                                {{employee.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="row text-center">
+                        <button class="btn btn-warning" type="submit">Comprobar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row mt-3" *ngIf="hasSchedules">
+                <ul class="list-group">
+                    <li class="list-group-item mb-1 bg-secondary" *ngFor="let schedule of schedules">
+                        Desde {{schedule.from}} hasta {{schedule.to}} tiene {{schedule.nightHours}} horas nocturnas.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+</div>
