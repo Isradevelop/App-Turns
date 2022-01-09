@@ -11,8 +11,10 @@
                     <div class="row mb-5">
                         <p>Nombre de empleado</p>
                         <select class="form-select" formControlName="name">
+                            <option></option>
                             <option *ngFor="let employee of employees" class="text-black" value="{{employee.name}}">
-                                {{employee.name}}</option>
+                                {{employee.name}}
+                            </option>
                         </select>
                     </div>
 

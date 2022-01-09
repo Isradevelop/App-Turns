@@ -11,6 +11,7 @@
                     <div class="row mb-4">
                         <p>¿Con que compañero quieres cambiar el turno?</p>
                         <select class="form-select" formControlName="affectedEmployee">
+                            <option></option>
                             <option *ngFor="let employeeName of employeesNames" value="{{employeeName}}">
                                 {{employeeName}}
                             </option>

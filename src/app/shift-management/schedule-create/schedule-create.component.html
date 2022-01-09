@@ -23,7 +23,9 @@
                     <div class="col-12">
                         <label for="employeeName">Nombre: </label>
                         <select class="form-select" id="employeeName" formControlName="employeeName">
-                            <option *ngFor="let employeeName of employeeNames" value="{{employeeName}}">{{employeeName}}
+                            <option></option>
+                            <option *ngFor="let employeeName of employeeNames" value="{{employeeName}}">
+                                {{employeeName}}
                             </option>
                         </select>
                     </div>
