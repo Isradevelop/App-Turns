@@ -32,9 +32,11 @@ export class ScheduleService {
 
   //create a new schedule
   createSchedule(employeeName: string, dates: string[], shifts: string[], year: string, month: string) {
+
     return this.http.post<Schedule>(`${this.baseUrl}/schedule/new`, { employeeName, dates, shifts, year, month })
       .pipe(
         tap(scheduleCreated => {
+
           return scheduleCreated;
         }),
         catchError(err => of(err))

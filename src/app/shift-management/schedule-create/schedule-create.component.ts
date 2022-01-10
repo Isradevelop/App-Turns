@@ -101,7 +101,8 @@ export class ScheduleCreateComponent implements OnInit {
         } else {
 
           // charge array dates with moment.js
-          let date = moment.utc(`${year}-${month}-${day}`);
+          let date = moment(`${year}-${month}-${day}`);
+          console.log(date);
           for (let i = 0; i < 7; i++) {
             dates.push(date.format("DD/MM"));
             date.add(1, 'd');
@@ -112,11 +113,19 @@ export class ScheduleCreateComponent implements OnInit {
 
           this.scheduleService.createSchedule(employeeName, dates, shifts, fromList[0], fromList[1])
             .subscribe(schedule => {
-              Swal.fire({
-                icon: 'success',
-                title: 'Calendario creado con éxito',
-                timer: 2500
-              })
+              if (schedule.ok == true) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Calendario creado con éxito',
+                  timer: 2500
+                })
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se puede crear un calendario con fecha anterior a la fecha actual',
+                  timer: 2500
+                });
+              }
             })
         }
 
