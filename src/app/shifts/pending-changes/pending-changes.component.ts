@@ -36,6 +36,7 @@ export class PendingChangesComponent implements OnInit {
 
                 this.isEmptyChanges = false;
 
+
                 //This variable will be used to indicate in which position the turn to change is located.
                 let shiftPosition = change.shiftApplicant.dates.indexOf(change.changeDate);
 

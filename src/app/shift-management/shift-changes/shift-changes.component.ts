@@ -32,28 +32,28 @@ export class ShiftChangesComponent implements OnInit {
 
             for (let change of changes) {
 
-              if (change.affectedEmployee === employee.name) {
-
-                this.isEmptyChanges = false;
-
-                //This variable will be used to indicate in which position the turn to change is located.
-                let turnPosition = change.shiftApplicant.dates.indexOf(change.changeDate);
-
-                for (let change of changes) {
 
 
-                  this.changes.push({
-                    id: change._id,
-                    applicantEmployeeName: change.applicantEmployee,
-                    affectedEmployeeName: change.affectedEmployee,
-                    changeDate: change.changeDate,
-                    applicantShift: change.shiftApplicant.shifts[turnPosition],
-                    affectedShift: change.shiftAffected.shifts[turnPosition],
-                    applicantSchedule: change.shiftApplicant,
-                    affectedSchedule: change.shiftAffected,
-                    index: turnPosition
-                  })
-                }
+              this.isEmptyChanges = false;
+
+              //This variable will be used to indicate in which position the turn to change is located.
+              let turnPosition = change.shiftApplicant.dates.indexOf(change.changeDate);
+
+              for (let change of changes) {
+
+
+                this.changes.push({
+                  id: change._id,
+                  applicantEmployeeName: change.applicantEmployee,
+                  affectedEmployeeName: change.affectedEmployee,
+                  changeDate: change.changeDate,
+                  applicantShift: change.shiftApplicant.shifts[turnPosition],
+                  affectedShift: change.shiftAffected.shifts[turnPosition],
+                  applicantSchedule: change.shiftApplicant,
+                  affectedSchedule: change.shiftAffected,
+                  index: turnPosition
+                })
+
 
               };
             }

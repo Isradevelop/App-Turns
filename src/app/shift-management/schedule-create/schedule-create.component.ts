@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { ShiftsService } from '../../services/shifts.service';
 import { EmployeesService } from '../../services/employees.service';
 import { ScheduleService } from '../../services/schedule.service';
-import { Schedule } from 'src/app/models/schedule.interface';
+
 
 
 @Component({
@@ -122,7 +122,7 @@ export class ScheduleCreateComponent implements OnInit {
                   timer: 2500
                 })
               } else {
-                console.log(schedule);
+
                 Swal.fire({
                   icon: 'error',
                   title: schedule.error.msg,
