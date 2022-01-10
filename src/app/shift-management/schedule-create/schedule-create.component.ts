@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { ShiftsService } from '../../services/shifts.service';
 import { EmployeesService } from '../../services/employees.service';
 import { ScheduleService } from '../../services/schedule.service';
+import { Schedule } from 'src/app/models/schedule.interface';
 
 
 @Component({
@@ -54,6 +55,7 @@ export class ScheduleCreateComponent implements OnInit {
       .subscribe((allShiftsNames: string[]) => {
         this.shiftsNames = allShiftsNames;
       });
+
   }
 
   onSubmit() {
@@ -102,7 +104,7 @@ export class ScheduleCreateComponent implements OnInit {
 
           // charge array dates with moment.js
           let date = moment(`${year}-${month}-${day}`, "YYYY-MM-DD");
-          console.log(date);
+
           for (let i = 0; i < 7; i++) {
             dates.push(date.format("DD/MM"));
             date.add(1, 'd');
@@ -120,9 +122,10 @@ export class ScheduleCreateComponent implements OnInit {
                   timer: 2500
                 })
               } else {
+                console.log(schedule);
                 Swal.fire({
                   icon: 'error',
-                  title: 'No se puede crear un calendario con fecha anterior a la fecha actual',
+                  title: schedule.error.msg,
                   timer: 2500
                 });
               }
