@@ -101,7 +101,7 @@ export class ScheduleCreateComponent implements OnInit {
         } else {
 
           // charge array dates with moment.js
-          let date = moment(`${year}-${month}-${day}`);
+          let date = moment(`${year}-${month}-${day}`, "YYYY-MM-DD");
           console.log(date);
           for (let i = 0; i < 7; i++) {
             dates.push(date.format("DD/MM"));
