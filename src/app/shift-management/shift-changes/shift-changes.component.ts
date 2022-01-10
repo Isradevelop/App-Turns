@@ -81,6 +81,7 @@ export class ShiftChangesComponent implements OnInit {
 
 
   declineChange(id: any) {
+
     this.changesService.updateChange(id, "rejected")
       .subscribe();
 

@@ -83,6 +83,7 @@ export class PendingChangesComponent implements OnInit {
 
   //reject change
   declineChange(id: any) {
+
     this.changeService.updateChange(id, "rejected")
       .subscribe();
 
